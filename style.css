@@ -1,0 +1,275 @@
+*{
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+}
+body{
+    background-color: black;
+}
+
+.mainscreen{
+    width: 100%;
+    height: 100vh;
+    background: rgb(20, 21, 21);
+    background: radial-gradient(circle, rgb(32, 33, 33) 0%, rgb(0, 0, 0) 99%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    
+}
+
+.wrapper{
+    width: 100vw;
+    padding: 0px 25px;
+}
+
+.tapSec{
+    width: 100%;
+    height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+}
+
+.sumBC{
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+
+}
+
+.coinimg{
+    width: 47px;
+    height: 48px;
+    display: inline-block;
+    background-color: black;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    font-weight: 900;
+    border: 2px solid white;
+
+
+}
+
+
+
+.sumnimBc{
+    text-align: center;
+    font-size: 38px;
+    font-weight: 600;
+    width: 23px;
+    font-weight: 600;
+}
+
+
+.numLvl{
+    color: white;
+    margin-top: 10px;
+    font-size: 17px;
+    font-weight: 600;
+    text-align: left;
+    margin-left: 15px;
+}
+.lvl{
+    width: 280px;
+    height: 15px;
+    margin-top: 5px;
+    border-radius: 10px 10px;
+    border: 1px solid white;
+    opacity: .9;
+    display: inline-block;
+}
+
+.proressBar{
+    width: 0%;
+    height: 100%;
+    border-radius: 10px 10px;
+    background-color:white;
+    transition: all .2s ease-in-out;
+}
+
+
+.tpaZone{
+    width: 305px;
+    height: 305px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    border-radius: 50%;
+    color: white;
+    font-size: 120px;
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-top: 50px;
+    transition: all .05s ease-in-out;
+    border: 3px solid white;
+}
+
+.tpaZone:active{
+    border: 4px solid;
+    -webkit-box-shadow: 0px 0px 66px 17px rgba(184, 190, 195, 0.2) inset;
+    -moz-box-shadow: 0px 0px 66px 17px rgba(184, 190, 195, 0.2) inset;
+    box-shadow: 0px 0px 66px 17px rgba(184, 190, 195, 0.2) inset;
+}
+
+.boostANDenergySec{
+    width: 100%;
+    height: 15vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.energy{
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+.pngEnergy{
+    font-size: 42px;
+    font-weight: 600;
+    margin-right: 2px;
+}
+
+.currentEnergy{
+    font-size: 22px;
+    font-weight: 900;
+}
+
+
+.maxEnergy{
+    font-size: 16px;
+    opacity: .7;
+    margin-top: -2.6px;
+}
+
+
+
+
+.boostBtn, .shopBtn{
+    border-radius: 15px 15px;
+    width: 64px;
+    height: 62px;
+    outline: none;
+    transition: all .2s ease-in-out;
+}
+
+.boostBtn:active, .shopBtn:active{
+    opacity: .6;
+}
+
+
+.boostBtnPng, .shopBtnPng{
+    font-size: 30px;
+    font-weight: 600;
+
+}
+
+.boostBtnText, .shopBtnText{
+    font-weight: 600;
+    font-size: 17px;
+    margin-top: -6px;
+}
+
+
+
+
+
+
+
+.commingSoonBoosts, .shopPage{
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background: rgb(22, 22, 22);
+    background: radial-gradient(circle, rgb(25, 26, 26) 0%, rgb(0, 0, 0) 99%);
+    color: white;
+    visibility: hidden;
+    display: none;
+    
+}
+
+.commingSoonBoosts.openBoostsPage, .shopPage.shopPageOpen{
+    visibility: visible;
+    display: block;
+}
+
+
+.commingSoonBoostsHeader, .shopPageHeader{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+    font-weight: 600;
+    font-size: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 100%;
+    height: 8vh;
+}
+.commingSoonBoostsBody, .shopPageBody{
+    width: 100%;
+    height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+}
+
+.closeBoostsPageBtn, .closeShopPage{
+    display: flex;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all .1s ease-in-out;
+
+}
+.closeBoostsPageBtn:active, .closeShopPage:active{
+    -webkit-box-shadow: 0px 0px 66px 17px rgba(184, 190, 195, 0.2) inset;
+    -moz-box-shadow: 0px 0px 66px 17px rgba(184, 190, 195, 0.2) inset;
+    box-shadow: 0px 0px 66px 17px rgba(184, 190, 195, 0.2) inset;
+}
+
+
+
+
+
+
+
+
+
+
+@media (min-width: 821px) {
+    body{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+    }
+    .mainscreen{
+        width: 430px;
+        border: 3px solid rgb(255, 255, 255);
+        border-radius: 40px 40px;
+    }
+}
