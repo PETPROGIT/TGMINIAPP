@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body id="body">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+
+    <section class="intro" id="intro">
+        <div>
+            <p class="logo">
+                BlackCircle coin
+            </p>
+            <p class="founder">
+                Created by MVA
+            </p>
+        </div>
+    </section>
+
+    <section class="mainscreen" id="mainscreen">
+
+        <div class="wrapper">
+            
+            <section class="tapSec">
+                <div>
+                    <div class="sumBC">
+                        <div class="coinimg">BC</div> <div class="sumnimBc" id="sumnimBc">...</div> 
+                    </div>
+
+                    <div class="lvlBlock">
+                        <div class="numLvl" id="numLvl">lvl 1</div>
+                        <div class="lvl"><div class="proressBar" id="proressBar"></div></div>
+                    </div>
+                    
+                    <div class="tpaZone" onmousedown="tap()">
+                            BC
+                    </div>
+                    
+                </div>
+            </section>
+
+
+
+            <section class="boostANDenergySec">
+
+                <div class="energy">
+
+                    <div class="material-symbols-outlined pngEnergy">flash_on</div>
+
+                    <div class="energyNUM">
+                        <div class="currentEnergy" id="currentEnergy">500</div>
+                        <div class="maxEnergy" id="maxEnergy">/500</div>
+                    </div>
+                </div>
+
+                <div class="additionallyBlock">
+                    <button class="boostBtn" onmousedown="openBoostsPage()"><div class="material-symbols-outlined boostBtnPng" >rocket_launch</div> <div class="boostBtnText">Boosts</div></button>
+                    <button class="shopBtn" onmousedown="openShopPage()"><span class="material-symbols-outlined shopBtnPng">storefront</span><div class="shopBtnText">Shop</div></button>
+                </div>
+
+                
+            </section>
+
+        </div>
+
+    </section>
+
+    
+
+    <section class="BoostsPage" id="BoostsPage">
+        <header class="BoostsHeader">
+            Boosts<span onmousedown="closeBoostsPage()" class="material-symbols-outlined closeBoostsPageBtn">arrow_back</span>
+        </header>
+        <section class="BoostsBody">
+            Comming soon...
+        </section>
+    </section>
+
+
+
+
+
+
+
+
+
+    <section class="shopPage" id="shopPage">
+        <header class="shopPageHeader">
+            Shop<span onmousedown="closeShopPage()" class="material-symbols-outlined closeShopPage">arrow_back</span>
+        </header>
+
+        <section class="shopPageBody">
+            
+            <div class="productCard" id="card1">
+                <div class="prodDescrip">
+                    <img class="iconProductCard" src="iconTgPrm.png">Telegram Premium<br>3 mounth 
+                </div>
+                <button class="byBtn" id="tgPrem3m">2,000,000<span class="logoOnBtnBy">BC</span></button>
+            </div>
+            
+            <div class="productCard" id="card2">
+                <div class="prodDescrip">
+                    <img class="iconProductCard" src="iconTgPrm.png">Telegram Premium<br>6 mounth 
+                </div>
+                <button class="byBtn" id="tgPrem6m">3,000,000<span class="logoOnBtnBy">BC</span></button>
+            </div>
+
+            <div class="productCard" id="card3">
+                <div class="prodDescrip">
+                    <img class="iconProductCard" src="iconTgPrm.png">Telegram Premium<br>1 year 
+                </div>
+                <button class="byBtn" id="tgPrem1y">5,000,000<span class="logoOnBtnBy">BC</span></button>
+            </div>
+
+            <div class="productCard" id="card4">
+                <div class="prodDescrip">
+                    <img class="iconProductCard blackBG" src="notcoin_img.jpg">50 NOT<br>to your wallet
+                </div>
+                <button class="byBtn" id="not50">2,000,000<span class="logoOnBtnBy">BC</span></button>
+            </div>
+
+            <div class="productCard" id="card5">
+                <div class="prodDescrip">
+                    <img class="iconProductCard blackBG" src="notcoin_img.jpg">150 NOT<br>to your wallet
+                </div>
+                <button class="byBtn" id="not150">6,000,000<span class="logoOnBtnBy">BC</span></button>
+            </div>
+
+            <div class="productCard" id="card6">
+                <div class="prodDescrip">
+                    <img class="iconProductCard blackBG" src="notcoin_img.jpg">500 NOT<br>to your wallet
+                </div>
+                <button class="byBtn" id="not500">9,000,000<span class="logoOnBtnBy">BC</span></button>
+            </div>
+        </section>
+    </section>
+
+
+    <section class="modalScection" id="modalScection">
+        <div class="buyModal" id="buyModal">
+            <div class="PurchaseItem" id="purchaseItem">
+                <img class="iconProductCardModal blackBG" src="notcoin_img.jpg">500 NOT<br>to your wallet
+            </div>
+            <div class="statusPurchase">
+                <div class="statusName" id="statusName">Successfully!</div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+    <script>
+        let tgApp = window.Telegram.WebApp;
+        tgApp.expand();
+        const intro = document.getElementById("intro").style;
+        const mainscreen = document.getElementById("mainscreen").style;
+
+        setTimeout(() => {
+            intro.visibility = "hidden";
+            mainscreen.visibility = "visible";
+        }, 3500);
+    </script>
+
+    <script src="tap.js"></script>
+    <script src="openPage.js"></script>
+    <script src="buy.js"></script>
+
+
+</body>
+</html>
