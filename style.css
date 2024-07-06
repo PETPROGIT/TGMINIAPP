@@ -1,0 +1,619 @@
+*{
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+}
+body{
+    background-color: black;
+}
+
+
+.intro{
+    width: 100%;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    position: absolute;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+
+
+.logo{
+    font-size: 30px;
+    font-weight: 900;
+    margin-bottom: 2px;
+}
+
+.dowmloadBarIntro{
+    width: 100%;
+    height: 6px;
+    border: 2px solid white;
+    border-radius: 10px 10px;
+}
+.barDInto{
+    background-color: white;
+    width: 0;
+    height: 100%;
+    animation: dowmloadBarIntroAnimation 3.5s ease-in-out;
+    animation-delay: 1s;
+    border-radius: 10px 10px;
+
+}
+
+@keyframes dowmloadBarIntroAnimation {
+    0%{
+        width: 0;
+    }
+    50%{
+        width: 100%;
+    }
+    75%{
+        width: 100%;
+    }
+    100%{
+        width: 100%;
+    }
+}
+
+
+.founder{
+    margin-top: 2px;
+    font-weight: 500;
+}
+
+
+.mainscreen{
+    width: 100%;
+    height: 100vh;
+    background: rgb(20, 21, 21);
+    background: radial-gradient(circle, rgb(40, 39, 39) 0%, rgb(0, 0, 0) 99%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;   
+}
+
+.wrapper{
+    width: 100vw;
+    padding: 0px 25px;
+}
+
+.tapSec{
+    width: 100%;
+    height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+}
+
+.sumBC{
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-top: 5vh;
+    
+
+}
+
+.coinimg{
+    width: 42px;
+    height: 42px;
+    display: inline-block;
+    background-color: black;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    font-weight: 900;
+    border: 2px solid white;
+}
+
+
+
+.sumnimBc{
+    text-align: center;
+    font-size: 38px;
+    font-weight: 600;
+    width: 23px;
+    font-weight: 600;
+}
+
+
+.numLvl{
+    color: white;
+    margin-top: 10px;
+    font-size: 17px;
+    font-weight: 600;
+    text-align: left;
+    margin-left: 10%;
+}
+
+.lvl{
+    width: 82%;
+    height: 17px;
+    border-radius: 10px 10px;
+    border: 1px solid white;
+    opacity: .9;
+    display: inline-block;
+    margin-top: 2px;
+    margin-bottom: 20px;
+    padding: 1px;
+}
+
+.proressBar{
+    width: 0%;
+    height: 100%;
+    border-radius: 10px 10px;
+    background-color:white;
+    transition: all .2s ease-in-out;
+    min-width: 4.5%;
+    border: 3px solid black;
+
+}
+
+.tpaZone{
+    width: 88vw;
+    height: 88vw;
+    max-width: 410px;
+    max-height: 410px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    border-radius: 50%;
+    color: white;
+    font-size: 150px;
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: all .05s ease-in-out;
+    border: 4px solid white;
+    margin-top: 2vh;
+    transition: all 2s ease-out;
+}
+
+
+
+.lvlUP{
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    z-index: 100000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-box-shadow: 0px 0px 120px 70px rgba(0, 0, 0, 0.8) inset;
+    -moz-box-shadow: 0px 0px 120px 70px rgba(0, 0, 0, 0.8) inset;
+    box-shadow: 0px 0px 120px 70px rgba(0, 0, 0, 0.8) inset;
+    background-color: rgba(0, 0, 0, 0.6);
+    visibility: hidden;
+    opacity: 0;
+    transition: all .135s ease-in-out;
+}
+
+.lvlUP.openLvlUpModal{
+    visibility: visible;
+    opacity: 1;
+}
+
+.modalLvlUP{
+    width: 60vw;
+    height: 65vw;
+    border: 3px dashed white;
+    border-radius: 30px 30px;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.headerModalLvlUp{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    font-weight: 800;
+    color: white;
+}
+
+
+.lvlUpIcon{
+    font-size: 24px;
+    font-weight: 900;
+    color: white;
+    margin-left: 10px;
+}
+
+
+.bodyModalLvlUp{
+    color: white;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.rewarLvlUp{
+    display: inline-flex;
+    align-items: center;
+    font-size: 30px;
+    height: 120px;
+}
+
+.rewardSum{
+    font-size: 30px;
+}
+
+.logoOnLvlUp{
+    border: 2px solid white;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    font-weight: 600;
+    margin-left: 5px;
+    margin-top: 4px;
+}
+
+
+.BtnCollectRewardLvl{
+    width: 200px;
+    font-size: 22px;
+    font-weight: 700;
+    padding: 5px;
+    border-radius: 15px 15px;
+    background: rgba(0, 191, 255, 1.0);
+    background: linear-gradient(315deg, rgba(0, 191, 255, 0.804), rgba(255, 16, 143, 0.87));
+    color: rgb(255, 255, 255);
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+}
+.BtnCollectRewardLvl:active{
+    opacity: .7;
+}
+
+
+
+
+
+
+
+.boostANDenergySec{
+    width: 100%;
+    height: 15vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.energy{
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+.pngEnergy{
+    font-size: 42px;
+    font-weight: 600;
+    margin-right: 2px;
+}
+
+.currentEnergy{
+    font-size: 22px;
+    font-weight: 900;
+}
+
+.maxEnergy{
+    font-size: 16px;
+    opacity: .7;
+    margin-top: -2.6px;
+}
+
+.boostBtn, .shopBtn{
+    border-radius: 15px 15px;
+    width: 64px;
+    height: 64px;
+    outline: none;
+    transition: all .2s ease-in-out;
+    outline: none;
+    border: none;
+    box-shadow: none;
+    margin-left: 2px;
+    background-color: transparent;
+    color: white;
+    border: 3px solid white;
+    padding: 3px;
+}
+
+.boostBtn:active, .shopBtn:active{
+    opacity: .6;
+}
+
+
+.boostBtnPng, .shopBtnPng{
+    font-size: 30px;
+    font-weight: 500;
+
+}
+
+.boostBtnText, .shopBtnText{
+    font-weight: 500;
+    font-size: 17px;
+    margin-top: -6px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.shopPage, .BoostsPage{
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top:0;
+    background: rgb(22, 22, 22);
+    background: radial-gradient(circle, rgb(25, 26, 26) 0%, rgb(0, 0, 0) 99%);
+    color: white;
+    visibility: hidden;
+    transition: all .135s ease-in-out;
+    opacity: 0;
+}
+
+
+.shopPage.shopPageOpen, .BoostsPage.openBoostsPage{
+    visibility: visible;
+    opacity: 1;
+
+}
+
+.shopPageHeader, .BoostsHeader{
+    position: fixed;
+    z-index: 100000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    font-weight: 600;
+    font-size: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 100%;
+    height: 10vh;
+    border-bottom: 3px solid rgba(31, 30, 30, 0.69);
+    background-color: black;
+}
+
+.closeShopPage, .closeBoostsPageBtn{
+    display: flex;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all .1s ease-in-out;
+    cursor: pointer;
+}
+
+.BoostsBody{
+    margin-top: 10vh;
+    height: 90vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 32px;
+    font-weight: 650;
+}
+
+.shopPageBody{
+    width: 100%;
+    height: auto;
+    font-size: 32px;
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 8px;
+    margin-top: 10vh;
+
+}
+
+.productCard{
+    width: 100%;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px;
+    border: 3px solid rgb(38, 37, 37);
+    margin-bottom: 5px;
+    transition: all .2s ease-in-out;
+    border-radius: 18px 18px;
+}
+
+.iconProductCard, .iconProductCardModal{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.iconProductCard.blackBG, .iconProductCardModal.blackBG{
+    border: 3px solid white;
+}
+
+.prodDescrip{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 480;
+    font-size: 15px;
+    line-height: 22px;
+}
+
+.byBtn{
+    font-weight: 600;
+    font-size: 17px;
+    padding: 5px;
+    border-radius: 12px 12px;
+    background-color: white;
+    border: none;
+    width: 112px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all .03s ease-in-out;
+    text-align: center;
+}
+
+.byBtn:active{
+    transform: scale(0.98);
+    opacity: .8;
+}
+
+.logoOnBtnBy{
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.modalScection{
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    z-index: 1000000;
+    top: 0;
+    left: 0;
+    -webkit-box-shadow: 0px 0px 120px 70px rgba(0, 0, 0, 0.9) inset;
+    -moz-box-shadow: 0px 0px 120px 70px rgba(0, 0, 0, 0.9) inset;
+    box-shadow: 0px 0px 120px 70px rgba(0, 0, 0, 0.9) inset;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .135s ease-in-out;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.modalScection.openModalBuy{
+    visibility: visible;
+    opacity: 1;
+}
+
+.buyModal{
+    width: 270px;
+    height: 150px;
+    border-radius: 28px 28px;
+    background-color: black;
+    color: white;
+    border: 3px solid white;
+    padding: 10px 15px;
+    -webkit-box-shadow: 0px 0px 50px -10px rgba(240, 240, 240, 0.25);
+    -moz-box-shadow: 0px 0px 50px -10px rgba(240, 240, 240, 0.25);
+    box-shadow: 0px 0px 50px -10px rgba(240, 240, 240, 0.25);
+}
+.PurchaseItem{
+    display: flex;
+    align-items: center;
+    font-weight: 480;
+    margin-bottom: 25px;
+    margin-top: 6px;
+}
+.statusPurchase{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.statusName{
+    padding: 8px;
+    background-color: rgb(8, 187, 8);
+    font-weight: 700;
+    font-size: 18px;
+    border-radius: 12px 12px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (min-height: 700px) {
+    .tpaZone{
+        margin-top: 10vh;
+    }
+}
