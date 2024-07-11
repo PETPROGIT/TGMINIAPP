@@ -97,18 +97,8 @@ sumBcHTML.style.width = `${(sumBC.toString()).length * 34}px`;
 
 
 
-let lag = 0;
 
 function tap(){
-
-    if(lag === 0){
-        document.getElementById("tpaZone").style.transform = `rotate(2deg)`;
-        lag = 1
-        setTimeout(() => {
-            document.getElementById("tpaZone").style.transform = "rotateY(0deg)";
-            lag = 0
-        }, 100);
-    }
 
 
     if (c == 0){
