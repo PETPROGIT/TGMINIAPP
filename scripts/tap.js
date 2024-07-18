@@ -51,7 +51,7 @@ numLvlHTML.textContent = `lvl ${numLvl}`
 
 let plusLvl = localStorage.getItem("plusLvl");
 if (plusLvl == null){
-    localStorage.setItem("plusLvl", "20");
+    localStorage.setItem("plusLvl", "1");
     plusLvl = localStorage.getItem("plusLvl");
 }
 
