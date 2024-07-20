@@ -756,7 +756,7 @@ body{
 .bodyRewardVideo{
     height: 100vh;
     display: flex;align-items: center; justify-content: center;
-    font-size: 23px;
+    font-size: 20px;
     color: white;
     text-align: center;
     font-weight: 700;
