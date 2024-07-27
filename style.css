@@ -856,7 +856,7 @@ body{
     }
 }
 
-@media (max-height: 50px){
+@media (max-height: 640px){
     body{
         display: none;
         visibility: hidden;
