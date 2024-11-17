@@ -22,8 +22,8 @@
 .introLogo{
     width: 270px;
     height: auto;
-    margin-left: 15px;
-    margin-bottom: 10%;
+    margin-left: 25px;
+    margin-bottom: 15%;
     animation: logoAnimation 1s ease-in-out;
 }
 
