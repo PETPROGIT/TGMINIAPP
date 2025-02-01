@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body{
+        background-color: black;
+    }
+    body::-webkit-scrollbar { display: none; }
+    .row{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin: 8px;
+    }
+    .day{
+        display: inline-flex;
+        width: 16vw;
+        height: 16vw;
+        background-color: rgb(0, 0, 0);
+        border-radius: 10px;
+        color: rgb(255, 255, 255);
+        font-size: 22px;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        border: 1px solid white;
+        transition: all .2s ease-in-out;
+    }
+    .day.done{
+        background-color: rgb(46, 46, 46);
+        opacity: .4;
+    }
+
+
+
+    .balance{
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: white;
+        font-size: 40px;
+        font-weight: 600;
+        border-bottom: 3px solid rgb(255, 255, 255);
+    }
+    .stats{
+        height: 10vh;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: white;
+        padding:0 20px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    }
+</style>
+
+
+<body>
+
+    <div class="stats">
+        <div>
+            Готово: <span id="r"></span>/120<br>
+            Осталось: <span id="o"></span>
+        </div>
+        <div class="balance" id="balance"></div>
+    </div>
+
+
+
+    <div class="table">
+
+
+        <div class="row">
+            <div class="day">
+                
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+        </div>
+
+                
+        <div class="row">
+            <div class="day">
+                
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="day">
+                
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="day">
+                
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="day">
+                
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="day">
+                
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="day">
+                
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="day">
+                
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="day">
+                
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="day">
+                
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="day">
+                
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="day">
+                
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="day">
+                
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="day">
+                
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="day">
+                
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="day">
+                
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="day">
+                
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="day">
+                
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="day">
+                
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="day">
+                
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="day">
+                
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="day">
+                
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="day">
+                
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+        </div>
+
+                
+        <div class="row">
+            <div class="day">
+                
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+            <div class="day">
+
+            </div>
+        </div>
+
+        
+
+
+    </div>
+
+
+
+
+<script>
+    let balance;
+
+    const statusButtons = document.querySelectorAll(".day");
+    let i = 1;
+    let qdone = 0;
+    statusButtons.forEach(btn =>{
+        if(localStorage.getItem(i.toString()) == "1"){
+            qdone++;
+            btn.classList.add("done");
+        }
+        btn.textContent = i++;
+    
+        btn.addEventListener("click", (event)=>{
+            localStorage.setItem(event.target.textContent, "1")
+            event.target.classList.add("done");
+            let sum = parseInt(balance)+70;
+            qdone++;
+            balance=sum;
+            updateBalance()
+            document.getElementById("r").textContent = qdone;
+            document.getElementById("o").textContent = 120 - qdone;
+        })
+    })
+    
+    document.getElementById("r").textContent = qdone;
+    document.getElementById("o").textContent = 120 - qdone;
+
+
+    if(localStorage.getItem("bl") == null){
+        localStorage.setItem("bl", "0");
+
+    }
+    balance = localStorage.getItem("bl");
+
+    const balanceHTML = document.getElementById("balance");
+
+
+    function updateBalance(){
+        localStorage.setItem("bl", balance);
+        
+
+        balanceSTR = balance.toString();
+        if(balance >= 1000){
+            balanceSTR = (balance.toString())[0]+","+(balance.toString()).slice(1);
+        }
+        if(balance >= 10000){
+            balanceSTR = (balance.toString()).slice(0, 2)+","+(balance.toString()).slice(2);
+        }
+        if(balance >= 100000){
+            balanceSTR = (balance.toString()).slice(0, 3)+","+(balance.toString()).slice(3);
+        }
+        balanceHTML.textContent = balanceSTR;
+
+    }
+    updateBalance();
+</script>
+
+</body>
+</html>
