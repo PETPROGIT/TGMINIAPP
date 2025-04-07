@@ -1,581 +1,1039 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Финансовый трекер</title>
+    <style>
+        :root {
+            --primary-color: #5a7ab5;
+            --secondary-color: #7d9cc5;
+            --success-color: #6cbb6c;
+            --warning-color: #f5b75e;
+            --danger-color: #e5635d;
+            --light-color: #f9fafb;
+            --dark-color: #3a4a5a;
+            --border-color: #e1e5eb;
+            --text-color: #4a5568;
+            --text-light: #718096;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            --radius: 10px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            padding: 15px;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 24px;
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 15px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--text-color);
+            font-size: 14px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-size: 16px;
+            transition: var(--transition);
+            background-color: var(--light-color);
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(90, 122, 181, 0.2);
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 15px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 16px;
+            transition: var(--transition);
+            width: 100%;
+            font-weight: 500;
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-1px);
+        }
+
+        button.secondary {
+            background-color: var(--light-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+
+        button.secondary:hover {
+            background-color: #e2e6ea;
+        }
+
+        button.danger {
+            background-color: var(--danger-color);
+        }
+
+        button.danger:hover {
+            background-color: #d1423c;
+        }
+
+        button.success {
+            background-color: var(--success-color);
+        }
+
+        button.success:hover {
+            background-color: #5cb85c;
+        }
+
+        .amount-income {
+            color: var(--success-color);
+            font-weight: 500;
+        }
+
+        .amount-expense {
+            color: var(--danger-color);
+            font-weight: 500;
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: var(--border-color);
+            border-radius: var(--radius);
+            margin: 10px 0;
+            height: 12px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: var(--radius);
+            background-color: var(--primary-color);
+            transition: width 0.6s ease;
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 12px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .summary-card h3 {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+
+        .summary-card .amount {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .balance-positive {
+            color: var(--success-color);
+        }
+
+        .balance-negative {
+            color: var(--danger-color);
+        }
+
+        .goal-item {
+            display: flex;
+            flex-direction: column;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .goal-info {
+            flex: 1;
+            margin-bottom: 10px;
+        }
+
+        .goal-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .goal-description {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .goal-amounts {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .goal-progress {
+            width: 100%;
+        }
+
+        .goal-progress-text {
+            text-align: right;
+            font-size: 14px;
+            color: var(--text-light);
+            margin-top: 3px;
+        }
+
+        .goal-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .goal-actions button {
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .tab {
+            padding: 12px 15px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: var(--transition);
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .tab.active {
+            border-bottom: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .tab:hover:not(.active) {
+            border-bottom: 2px solid var(--secondary-color);
+            color: var(--secondary-color);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .transactions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .transaction-info {
+            flex: 1;
+        }
+
+        .transaction-category {
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+
+        .transaction-date {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .transaction-description {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-top: 3px;
+        }
+
+        .transaction-amount {
+            font-weight: 600;
+            margin-left: 10px;
+            white-space: nowrap;
+        }
+
+        .transaction-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .transaction-actions button {
+            padding: 5px 8px;
+            font-size: 12px;
+            width: auto;
+        }
+
+        /* Модальные окна */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--radius);
+            width: 100%;
+            max-width: 400px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--text-light);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            background: var(--light-color);
+            color: var(--danger-color);
+        }
+
+        .modal-body {
+            padding: 15px;
+        }
+
+        .modal-footer {
+            padding: 15px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-footer button {
+            flex: 1;
+        }
+
+        /* Адаптивные улучшения */
+        @media (min-width: 768px) {
+            .container {
+                padding: 20px;
+                max-width: 800px;
+                margin: 20px auto;
+                border-radius: var(--radius);
+            }
+
+            .goal-item {
+                flex-direction: row;
+                align-items: center;
+            }
+
+            .goal-info {
+                margin-bottom: 0;
+                margin-right: 15px;
+            }
+
+            .goal-progress {
+                width: 200px;
+                margin: 0 15px;
+            }
+
+            .goal-actions {
+                margin-top: 0;
+                flex-direction: column;
+                min-width: 120px;
+            }
+
+            .goal-actions button {
+                width: 100%;
+            }
+        }
+
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Иконки */
+        .icon-btn {
+            background: none;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--text-light);
+        }
+
+        .icon-btn:hover {
+            background: var(--light-color);
+            color: var(--primary-color);
+        }
+    </style>
 </head>
-<style>
-    *{
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-    body{
-        background-color: black;
-    }
-    body::-webkit-scrollbar { display: none; }
-    .row{
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        margin: 8px;
-    }
-    .day{
-        display: inline-flex;
-        width: 16vw;
-        height: 16vw;
-        background-color: rgb(0, 0, 0);
-        border-radius: 10px;
-        color: rgb(255, 255, 255);
-        font-size: 22px;
-        align-items: center;
-        justify-content: center;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        border: 1px solid white;
-        transition: all .2s ease-in-out;
-    }
-    .day.done{
-        background-color: rgb(46, 46, 46);
-        opacity: .4;
-    }
-
-
-
-    .balance{
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        color: white;
-        font-size: 40px;
-        font-weight: 600;
-        border-bottom: 3px solid rgb(255, 255, 255);
-    }
-    .stats{
-        height: 11vh;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        color: white;
-        padding:0 20px;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        margin-bottom: 10px;
-
-    }
-</style>
-
-
 <body>
-
-    <div class="stats">
-        <div>
-            Собрано: <span id="r"></span>/120<br>
-            Осталось: <span id="o"></span>
+    <div class="container">
+        <h1>Финансовый трекер</h1>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="transactions">Транзакции</div>
+            <div class="tab" data-tab="goals">Цели</div>
+            <div class="tab" data-tab="stats">Статистика</div>
         </div>
-        <div class="balance" id="balance"></div>
+        
+        <div class="tab-content active" id="transactions-tab">
+            <div class="card">
+                <h2>Добавить транзакцию</h2>
+                <form id="transaction-form">
+                    <div class="form-group">
+                        <label for="transaction-type">Тип</label>
+                        <select id="transaction-type" required>
+                            <option value="income">Доход</option>
+                            <option value="expense">Расход</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="transaction-amount">Сумма (₽)</label>
+                        <input type="number" id="transaction-amount" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="transaction-category">Категория</label>
+                        <input type="text" id="transaction-category" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="transaction-date">Дата</label>
+                        <input type="date" id="transaction-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="transaction-description">Описание (необязательно)</label>
+                        <input type="text" id="transaction-description">
+                    </div>
+                    <button type="submit">Добавить</button>
+                </form>
+            </div>
+            
+            <div class="card">
+                <h2>Сводка</h2>
+                <div class="summary-cards">
+                    <div class="summary-card">
+                        <h3>Баланс</h3>
+                        <div class="amount" id="balance-amount">0 ₽</div>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Доходы</h3>
+                        <div class="amount amount-income" id="income-amount">0 ₽</div>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Расходы</h3>
+                        <div class="amount amount-expense" id="expense-amount">0 ₽</div>
+                    </div>
+                </div>
+                
+                <h3>Последние транзакции</h3>
+                <div class="transactions-list" id="recent-transactions">
+                    <!-- Транзакции будут добавляться сюда -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="goals-tab">
+            <div class="card">
+                <h2>Новая цель</h2>
+                <form id="goal-form">
+                    <div class="form-group">
+                        <label for="goal-title">Название цели</label>
+                        <input type="text" id="goal-title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="goal-target">Целевая сумма (₽)</label>
+                        <input type="number" id="goal-target" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="goal-current">Текущая сумма (₽)</label>
+                        <input type="number" id="goal-current" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="goal-description">Описание (необязательно)</label>
+                        <input type="text" id="goal-description">
+                    </div>
+                    <button type="submit">Добавить цель</button>
+                </form>
+            </div>
+            
+            <div class="card">
+                <h2>Мои цели</h2>
+                <div id="goals-list">
+                    <!-- Цели будут добавляться сюда -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="stats-tab">
+            <div class="card">
+                <h2>Статистика по категориям</h2>
+                <div id="category-stats">
+                    <!-- Статистика будет добавляться сюда -->
+                </div>
+            </div>
+        </div>
     </div>
 
-
-
-    <div class="table">
-
-
-        <div class="row">
-            <div class="day">
-                
+    <!-- Модальное окно для управления целью -->
+    <div class="modal" id="goal-manage-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Управление целью</h3>
+                <button class="modal-close">&times;</button>
             </div>
-            <div class="day">
-
+            <div class="modal-body">
+                <form id="goal-manage-form">
+                    <input type="hidden" id="manage-goal-id">
+                    <div class="form-group">
+                        <label for="manage-action">Действие</label>
+                        <select id="manage-action" required>
+                            <option value="deposit">Пополнить</option>
+                            <option value="withdraw">Снять</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="manage-amount">Сумма (₽)</label>
+                        <input type="number" id="manage-amount" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="manage-description">Описание (необязательно)</label>
+                        <input type="text" id="manage-description">
+                    </div>
+                </form>
             </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-        </div>
-
-                
-        <div class="row">
-            <div class="day">
-                
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
+            <div class="modal-footer">
+                <button type="button" class="secondary modal-close-btn">Отмена</button>
+                <button type="button" class="success" id="goal-manage-submit">Подтвердить</button>
             </div>
         </div>
-        
-        <div class="row">
-            <div class="day">
-                
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="day">
-                
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="day">
-                
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="day">
-                
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="day">
-                
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="day">
-                
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="day">
-                
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="day">
-                
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="day">
-                
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="day">
-                
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="day">
-                
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="day">
-                
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="day">
-                
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="day">
-                
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="day">
-                
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="day">
-                
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="day">
-                
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="day">
-                
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="day">
-                
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="day">
-                
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="day">
-                
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-        </div>
-
-                
-        <div class="row">
-            <div class="day">
-                
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-            <div class="day">
-
-            </div>
-        </div>
-
-        
-
-
     </div>
 
-
-
-
-<script>
-    let balance;
-
-    const statusButtons = document.querySelectorAll(".day");
-    let i = 1;
-    let qdone = 0;
-    statusButtons.forEach(btn =>{
-        if(localStorage.getItem(i.toString()) == "1"){
-            qdone++;
-            btn.classList.add("done");
-        }
-        btn.textContent = i++;
-    
-        btn.addEventListener("click", (event)=>{
-            localStorage.setItem(event.target.textContent, "1")
-            event.target.classList.add("done");
-            let sum = parseInt(balance)+70;
-            qdone++;
-            balance=sum;
-            updateBalance()
-            document.getElementById("r").textContent = qdone;
-            document.getElementById("o").textContent = 120 - qdone;
-        })
-    })
-    
-    document.getElementById("r").textContent = qdone;
-    document.getElementById("o").textContent = 120 - qdone;
-
-
-    if(localStorage.getItem("bl") == null){
-        localStorage.setItem("bl", "0");
-
-    }
-    balance = localStorage.getItem("bl");
-
-    const balanceHTML = document.getElementById("balance");
-
-
-    function updateBalance(){
-        localStorage.setItem("bl", balance);
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Инициализация данных
+            if (!localStorage.getItem('transactions')) {
+                localStorage.setItem('transactions', JSON.stringify([]));
+            }
+            
+            if (!localStorage.getItem('goals')) {
+                localStorage.setItem('goals', JSON.stringify([]));
+            }
+            
+            // Загрузка данных
+            loadTransactions();
+            loadGoals();
+            updateSummary();
+            loadCategoryStats();
+            
+            // Обработчики событий для вкладок
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    this.classList.add('active');
+                    document.getElementById(this.dataset.tab + '-tab').classList.add('active');
+                });
+            });
+            
+            // Обработчик формы транзакции
+            document.getElementById('transaction-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const type = document.getElementById('transaction-type').value;
+                const amount = parseFloat(document.getElementById('transaction-amount').value);
+                const category = document.getElementById('transaction-category').value;
+                const date = document.getElementById('transaction-date').value;
+                const description = document.getElementById('transaction-description').value;
+                
+                const transaction = {
+                    id: Date.now(),
+                    type,
+                    amount,
+                    category,
+                    date,
+                    description
+                };
+                
+                const transactions = JSON.parse(localStorage.getItem('transactions'));
+                transactions.push(transaction);
+                localStorage.setItem('transactions', JSON.stringify(transactions));
+                
+                this.reset();
+                document.getElementById('transaction-date').valueAsDate = new Date();
+                
+                loadTransactions();
+                updateSummary();
+                loadCategoryStats();
+                
+                // Анимация добавления
+                const transactionList = document.getElementById('recent-transactions');
+                transactionList.classList.remove('fade-in');
+                void transactionList.offsetWidth; // Trigger reflow
+                transactionList.classList.add('fade-in');
+            });
+            
+            // Обработчик формы цели
+            document.getElementById('goal-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const title = document.getElementById('goal-title').value;
+                const target = parseFloat(document.getElementById('goal-target').value);
+                const current = parseFloat(document.getElementById('goal-current').value);
+                const description = document.getElementById('goal-description').value;
+                
+                const goal = {
+                    id: Date.now(),
+                    title,
+                    target,
+                    current,
+                    description
+                };
+                
+                const goals = JSON.parse(localStorage.getItem('goals'));
+                goals.push(goal);
+                localStorage.setItem('goals', JSON.stringify(goals));
+                
+                this.reset();
+                loadGoals();
+            });
+            
+            // Установка текущей даты по умолчанию
+            document.getElementById('transaction-date').valueAsDate = new Date();
+            
+            // Модальное окно управления целью
+            const goalManageModal = document.getElementById('goal-manage-modal');
+            const modalCloseBtns = document.querySelectorAll('.modal-close, .modal-close-btn');
+            
+            // Закрытие модального окна
+            modalCloseBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    goalManageModal.classList.remove('active');
+                });
+            });
+            
+            // Закрытие при клике вне модального окна
+            goalManageModal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+            
+            // Обработчик подтверждения управления целью
+            document.getElementById('goal-manage-submit').addEventListener('click', function() {
+                const goalId = parseInt(document.getElementById('manage-goal-id').value);
+                const action = document.getElementById('manage-action').value;
+                const amount = parseFloat(document.getElementById('manage-amount').value);
+                const description = document.getElementById('manage-description').value;
+                
+                if (!amount || amount <= 0) {
+                    alert('Введите корректную сумму');
+                    return;
+                }
+                
+                const goals = JSON.parse(localStorage.getItem('goals'));
+                const goalIndex = goals.findIndex(g => g.id === goalId);
+                
+                if (goalIndex === -1) {
+                    alert('Цель не найдена');
+                    return;
+                }
+                
+                if (action === 'deposit') {
+                    goals[goalIndex].current += amount;
+                    
+                    // Добавляем транзакцию
+                    const transactions = JSON.parse(localStorage.getItem('transactions'));
+                    transactions.push({
+                        id: Date.now(),
+                        type: 'expense',
+                        amount,
+                        category: `Цель: ${goals[goalIndex].title}`,
+                        date: new Date().toISOString().split('T')[0],
+                        description: description || `Пополнение цели "${goals[goalIndex].title}"`
+                    });
+                    localStorage.setItem('transactions', JSON.stringify(transactions));
+                } else {
+                    if (goals[goalIndex].current < amount) {
+                        alert('Недостаточно средств в цели');
+                        return;
+                    }
+                    
+                    goals[goalIndex].current -= amount;
+                    
+                    // Добавляем транзакцию
+                    const transactions = JSON.parse(localStorage.getItem('transactions'));
+                    transactions.push({
+                        id: Date.now(),
+                        type: 'income',
+                        amount,
+                        category: `Цель: ${goals[goalIndex].title}`,
+                        date: new Date().toISOString().split('T')[0],
+                        description: description || `Снятие с цели "${goals[goalIndex].title}"`
+                    });
+                    localStorage.setItem('transactions', JSON.stringify(transactions));
+                }
+                
+                localStorage.setItem('goals', JSON.stringify(goals));
+                goalManageModal.classList.remove('active');
+                loadGoals();
+                loadTransactions();
+                updateSummary();
+                loadCategoryStats();
+            });
+        });
         
-
-        balanceSTR = balance.toString();
-        if(balance >= 1000){
-            balanceSTR = (balance.toString())[0]+","+(balance.toString()).slice(1);
+        function loadTransactions() {
+            const transactions = JSON.parse(localStorage.getItem('transactions'));
+            const container = document.getElementById('recent-transactions');
+            container.innerHTML = '';
+            
+            // Сортировка по дате (новые сначала)
+            transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            // Показываем последние 5 транзакций
+            const recentTransactions = transactions.slice(0, 5);
+            
+            if (recentTransactions.length === 0) {
+                container.innerHTML = '<div class="empty-state">Нет транзакций</div>';
+                return;
+            }
+            
+            recentTransactions.forEach(transaction => {
+                const item = document.createElement('div');
+                item.className = 'transaction-item';
+                
+                const date = new Date(transaction.date);
+                const formattedDate = date.toLocaleDateString('ru-RU');
+                
+                item.innerHTML = `
+                    <div class="transaction-info">
+                        <div class="transaction-category">${transaction.category}</div>
+                        <div class="transaction-date">${formattedDate}</div>
+                        ${transaction.description ? `<div class="transaction-description">${transaction.description}</div>` : ''}
+                    </div>
+                    <div class="transaction-amount ${transaction.type === 'income' ? 'amount-income' : 'amount-expense'}">
+                        ${transaction.type === 'income' ? '+' : '-'}${transaction.amount.toFixed(2)} ₽
+                    </div>
+                    <div class="transaction-actions">
+                        <button class="danger" onclick="deleteTransaction(${transaction.id})">×</button>
+                    </div>
+                `;
+                
+                container.appendChild(item);
+            });
         }
-        if(balance >= 10000){
-            balanceSTR = (balance.toString()).slice(0, 2)+","+(balance.toString()).slice(2);
+        
+        function loadGoals() {
+            const goals = JSON.parse(localStorage.getItem('goals'));
+            const goalsList = document.getElementById('goals-list');
+            goalsList.innerHTML = '';
+            
+            if (goals.length === 0) {
+                goalsList.innerHTML = '<div class="empty-state">Нет целей</div>';
+                return;
+            }
+            
+            goals.forEach(goal => {
+                const progress = (goal.current / goal.target) * 100;
+                const progressBarWidth = progress > 100 ? 100 : progress;
+                
+                const goalElement = document.createElement('div');
+                goalElement.className = 'goal-item';
+                goalElement.innerHTML = `
+                    <div class="goal-info">
+                        <div class="goal-title">${goal.title}</div>
+                        ${goal.description ? `<div class="goal-description">${goal.description}</div>` : ''}
+                        <div class="goal-amounts">
+                            <span>${goal.current.toFixed(2)} ₽</span>
+                            <span>из ${goal.target.toFixed(2)} ₽</span>
+                        </div>
+                    </div>
+                    <div class="goal-progress">
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: ${progressBarWidth}%"></div>
+                        </div>
+                        <div class="goal-progress-text">
+                            ${progress.toFixed(1)}%
+                        </div>
+                    </div>
+                    <div class="goal-actions">
+                        <button class="success" onclick="openGoalManageModal(${goal.id}, 'deposit')">+</button>
+                        <button class="secondary" onclick="openGoalManageModal(${goal.id}, 'withdraw')">-</button>
+                        <button class="danger" onclick="deleteGoal(${goal.id})">×</button>
+                    </div>
+                `;
+                
+                goalsList.appendChild(goalElement);
+            });
         }
-        if(balance >= 100000){
-            balanceSTR = (balance.toString()).slice(0, 3)+","+(balance.toString()).slice(3);
+        
+        function openGoalManageModal(goalId, action) {
+            const goalManageModal = document.getElementById('goal-manage-modal');
+            const goals = JSON.parse(localStorage.getItem('goals'));
+            const goal = goals.find(g => g.id === goalId);
+            
+            if (!goal) return;
+            
+            document.getElementById('manage-goal-id').value = goalId;
+            document.getElementById('manage-action').value = action;
+            document.getElementById('manage-amount').value = '';
+            document.getElementById('manage-description').value = '';
+            
+            const modalTitle = document.querySelector('#goal-manage-modal .modal-title');
+            modalTitle.textContent = action === 'deposit' 
+                ? `Пополнение цели "${goal.title}"` 
+                : `Снятие с цели "${goal.title}"`;
+            
+            goalManageModal.classList.add('active');
+            document.getElementById('manage-amount').focus();
         }
-        balanceHTML.textContent = balanceSTR;
-
-    }
-    updateBalance();
-</script>
-
+        
+        function updateSummary() {
+            const transactions = JSON.parse(localStorage.getItem('transactions'));
+            
+            let income = 0;
+            let expense = 0;
+            
+            transactions.forEach(transaction => {
+                if (transaction.type === 'income') {
+                    income += transaction.amount;
+                } else {
+                    expense += transaction.amount;
+                }
+            });
+            
+            const balance = income - expense;
+            
+            document.getElementById('balance-amount').textContent = `${balance.toFixed(2)} ₽`;
+            document.getElementById('balance-amount').className = `amount ${balance >= 0 ? 'balance-positive' : 'balance-negative'}`;
+            document.getElementById('income-amount').textContent = `${income.toFixed(2)} ₽`;
+            document.getElementById('expense-amount').textContent = `${expense.toFixed(2)} ₽`;
+        }
+        
+        function loadCategoryStats() {
+            const transactions = JSON.parse(localStorage.getItem('transactions'));
+            const categoryStats = document.getElementById('category-stats');
+            categoryStats.innerHTML = '';
+            
+            // Группировка по категориям
+            const categories = {};
+            
+            transactions.forEach(transaction => {
+                if (!categories[transaction.category]) {
+                    categories[transaction.category] = {
+                        income: 0,
+                        expense: 0
+                    };
+                }
+                
+                if (transaction.type === 'income') {
+                    categories[transaction.category].income += transaction.amount;
+                } else {
+                    categories[transaction.category].expense += transaction.amount;
+                }
+            });
+            
+            if (Object.keys(categories).length === 0) {
+                categoryStats.innerHTML = '<div class="empty-state">Нет данных для отображения</div>';
+                return;
+            }
+            
+            // Создаем карточки для каждой категории
+            Object.keys(categories).forEach(category => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                
+                const total = categories[category].income - categories[category].expense;
+                
+                card.innerHTML = `
+                    <h3>${category}</h3>
+                    <div class="summary-cards">
+                        <div class="summary-card">
+                            <h3>Доходы</h3>
+                            <div class="amount amount-income">${categories[category].income.toFixed(2)} ₽</div>
+                        </div>
+                        <div class="summary-card">
+                            <h3>Расходы</h3>
+                            <div class="amount amount-expense">${categories[category].expense.toFixed(2)} ₽</div>
+                        </div>
+                        <div class="summary-card">
+                            <h3>Итого</h3>
+                            <div class="amount ${total >= 0 ? 'amount-income' : 'amount-expense'}">
+                                ${total.toFixed(2)} ₽
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                categoryStats.appendChild(card);
+            });
+        }
+        
+        function deleteTransaction(id) {
+            if (confirm('Удалить эту транзакцию?')) {
+                const transactions = JSON.parse(localStorage.getItem('transactions'));
+                const updatedTransactions = transactions.filter(t => t.id !== id);
+                
+                localStorage.setItem('transactions', JSON.stringify(updatedTransactions));
+                loadTransactions();
+                updateSummary();
+                loadCategoryStats();
+            }
+        }
+        
+        function deleteGoal(id) {
+            if (confirm('Удалить эту цель? Все связанные транзакции останутся.')) {
+                const goals = JSON.parse(localStorage.getItem('goals'));
+                const updatedGoals = goals.filter(g => g.id !== id);
+                
+                localStorage.setItem('goals', JSON.stringify(updatedGoals));
+                loadGoals();
+            }
+        }
+    </script>
 </body>
 </html>
