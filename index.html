@@ -1,0 +1,1639 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://telegram.org/js/telegram-web-app.js?59"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.6.2/dist/dotlottie-wc.js" type="module"></script>
+
+    <style>
+        :root {
+            --bg-color: #1b1b1b;
+            --secondary-bg: rgb(43, 43, 43);
+            --text-color: #e1e1e1;
+            --accent-color: #3a3a3a;
+            --active-color: #4a4a4a;
+            --primary-color: rgb(0, 145, 193);
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        
+        .content-container {
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 56px;
+        }
+        
+        .content {
+            padding: 20px;
+        }
+        
+        .navbar-bottom {
+            background-color: rgb(27, 27, 27, .8);
+            backdrop-filter: blur(13px);
+            padding: 0px 4%;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 60px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1.725px solid rgba(0, 0, 0, .15);
+        }
+        
+        .nav-item {
+            text-align: center;
+            width: auto;
+        }
+        
+        .nav-link {
+            color: var(--text-color);
+            font-size: 13px;
+            opacity: .6;
+            transition: ease-in-out .1s;
+            font-weight: 500;
+            border: none;
+            outline: none;
+            display: block;
+            margin-top: -.75px;
+        }
+        
+        .nav-link.active {
+            color: var(--primary-color);
+            opacity: 1;
+            font-weight: 500;
+
+        }
+        
+        .nav-link i {
+            display: block;
+            font-size: 21px;
+        }
+        
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            background-color: var(--accent-color);
+            border-radius: 15%;
+            margin: 10px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: var(--text-color);
+            object-fit: cover;
+        }
+        
+        .username {
+            font-size: 23px;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--accent-color);
+        }
+        
+        .empty-state {
+            text-align: center;
+            color: #999999;
+            font-size: 16px;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+
+        .profile-content {
+            width: 100%;
+        }
+        
+        
+        .user-stats {
+            background-color: var(--secondary-bg);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .stat-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .stat-label {
+            color: #aaa;
+            font-size: 14px;
+        }
+        
+        .stat-value {
+            font-weight: 500;
+        }
+        
+        .user-id {
+            font-size: 14.5px;
+            color: #b3b3b3;
+            text-align: center;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+        }
+
+        /* Стили для страницы кейсов */
+        .case-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--accent-color);
+        }
+
+        .case-tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px 0;
+            font-weight: 500;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            opacity: .525;
+        }
+
+        .case-tab.active {
+            border-bottom: 3px solid var(--primary-color);
+            /* color: var(--primary-color); */
+            opacity: 1;
+        }
+
+        .case-roulette-container {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            height: 150px;
+            margin-bottom: 20px;
+        }
+
+        .case-roulette {
+            display: flex;
+            position: absolute;
+            left: 0;
+            transition: transform 0.1s linear;
+        }
+
+        .case-item {
+            width: 120px;
+            height: 135px;
+            margin-right: 5px;
+            background-color: var(--secondary-bg);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+            display: flex;
+            align-items: start;
+            justify-content: center;
+            padding-top: 8px;
+            border: .8px solid rgba(0, 0, 0, .475);
+        }
+
+        .case-item img {
+            width: 95px;
+            height: 95px;
+            object-fit: cover;
+        }
+
+        .case-item-chance {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.21);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 4px 5px;
+            font-size: 13px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+        }
+
+        .buy-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 0;
+            width: 100%;
+            border-radius: 10px;
+            font-weight: 500;
+            font-size: 16px;
+            margin-bottom: 20px;
+            margin-top: -5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .prizes-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: #aaaaaa;
+        }
+
+        .prizes-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .prize-item {
+            background-color: var(--secondary-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            padding-top: 10px;
+            border: 1.5px solid rgba(0, 0, 0, .48);
+
+        }
+
+        .prize-item img {
+            width: 79%;
+            object-fit: cover;
+        }
+
+        .prize-info {
+            padding: 8px;
+        }
+
+        .prize-name {
+            font-size: 14.5px;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /*background-color: rgba(255, 208, 0, 0.15);*/
+            border-radius: 10px 10px;
+            margin-top: -8px;
+        }
+
+        .prize-chance {
+            font-size: 12px;
+            color: var(--primary-color);
+        }
+
+        /* Стили для вкладок профиля */
+        .profile-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--accent-color);
+        }
+
+        .profile-tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px 0;
+            font-weight: 500;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+
+        .profile-tab.active {
+            border-bottom: 3px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .profile-tab-content {
+            display: none;
+            padding: 0;
+        }
+
+        .profile-tab-content.active {
+            display: block;
+            padding: 0;
+
+        }
+
+        /* Стили для выигрышей */
+
+        .win-item {
+            background-color: var(--secondary-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            padding: 6px 10px 6px 6px;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        .win-image {
+            width: 55px;
+            height: 55px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-right: 7px;
+        }
+
+        .win-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex: 1;
+        }
+
+        .getWinGiftBtn{
+            border: none;
+            background-color: var(--primary-color);
+            border-radius: 7px 7px;
+            color: white;
+            font-size: 14.5px;
+            width: 72px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .getedGift{
+            width: 72px;
+            height: 32px;
+            color: #cacaca;
+            border-radius: 7px 7px;
+            border: 1px solid rgb(104, 104, 104, .55);
+            background-color: #282828;
+            font-size: 14.5px;  
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .win-name {
+            font-weight: 500;
+            margin-bottom: 2px;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            color: white;
+
+        }
+
+        .win-date {
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        /* Модальное окно выигрыша */
+        .win-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.72);
+            backdrop-filter: blur(14px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            display: none;
+        }
+
+        .win-modal-content {
+            background-color: transparent;
+            width: 90%;
+            max-width: 350px;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+
+        }
+
+        .win-modal-image {
+            width: 75%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            margin-bottom: 5px;
+            border-radius: 10px;
+            margin-top: -78px;
+        }
+
+        .win-modal-title {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .win-modal-text {
+            margin-bottom: 8px;
+            font-size: 24px;
+            font-weight: 500;
+        }
+        .win-modal-text2 {
+            margin-bottom: 14px;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        .win-modal-buttons {
+            position: absolute;;
+            bottom: 4%;
+            left: 0%;
+            width: 88%;
+            margin-left: 6%;
+        }
+        .win-modal-close, .win-modal-sell {
+            background-color: var(--primary-color);
+            background-color: #52525276;
+            color: white;
+            border: none;
+            padding: 12px 0;
+            width: 100%;
+            border-radius: 10.5px;
+            font-weight: 500;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Стили для стрелочки */
+        .case-roulette-container {
+            position: relative;
+        }
+        
+        .case-arrow {
+            position: absolute;
+            top: 114%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
+            z-index: 10;
+            pointer-events: none;
+        }
+        
+        .case-arrow::before {
+            content: "";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 9px solid transparent;
+            border-right: 9px solid transparent;
+            border-bottom: 10px solid var(--primary-color);
+        }
+
+        .downloadScreen.hide {
+            opacity: 0;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="errorScreen" style="width: 100%; height: 100vh; position: absolute; top: 0; left: 0; background-color: var(--bg-color); display: none; z-index: 10000000000; align-items: center; justify-content: center; font-weight: 500; font-size: 18px;">
+        <div style="text-align: center; margin-top: -55px; font-size: 19px; width: 90%;">
+            <i class="bi bi-exclamation-triangle" style="display: block; font-size: 70px;"></i>Неполадки на сервере...
+        </div>
+    </div>
+
+    <div id="downloadScreen" class="downloadScreen" style="width: 100%; height: 100vh; position: absolute; top: 0; left: 0; background-color: #141414; display: flex; z-index: 100000000000; align-items: center; justify-content: center; font-weight: 500; font-size: 18px; transition: all .2s ease-in-out;">
+        <img src="https://cdn-editing-temp.picsart.com/editing-temp-landings/45adb207-d8ca-469b-bd02-f8403abe30e5.png" style="width: 120px; margin-top: -35px; border-radius: 15px; background-color: rgb(31,51,78)">
+    </div>
+
+
+    <div class="app-container">
+        <div class="content-container">
+            <div class="content">
+                <div id="cases" class="tab-content active">
+                    <div class="case-tabs">
+                        <div class="case-tab active" data-case="25" style="display: flex; align-items: center; justify-content: center;">Кейс за 25 <img src="https://cdn-editing-temp.picsart.com/editing-temp-landings/9a7798dc-108c-44a8-9753-b6cc826bacb2.png" style="width: 16px; margin-left: 4px;"></div>
+                        <div class="case-tab" data-case="50" style="display: flex; align-items: center; justify-content: center;">Кейс за 50 <img src="https://cdn-editing-temp.picsart.com/editing-temp-landings/9a7798dc-108c-44a8-9753-b6cc826bacb2.png" style="width: 16px; margin-left: 4px;"></div>
+                    </div>
+                    
+                    <div class="case-roulette-container">
+                        <div class="case-arrow"></div>
+                        <div class="case-roulette" id="caseRoulette">
+                            <!-- Кейсы будут добавляться динамически -->
+                        </div>
+                    </div>
+                    
+                    <button class="buy-btn" id="buyCase">Оплатить</button>
+                    
+                    <div class="prizes-title">Возможные подарки:</div>
+                    <div class="prizes-grid" id="prizesGrid">
+                        <!-- Призы будут добавляться динамически -->
+                    </div>
+                </div>
+                
+
+                <div id="pulls" style="text-align: center; font-weight: 500; font-size: 20px; width: 100%;" class="tab-content">
+                    <i class="bi bi-pc-display" style="display: block; font-size: 100px;"></i> В разработке...
+                </div>
+                
+
+                <div id="profile" class="tab-content">
+                    <div class="profile-content">
+                        <div class="profile-pic">
+                            <img src="" id="userphoto" class="profile-pic">
+                        </div>
+                        <div class="username" id="username">username</div>
+                        <div class="user-id" id="userid">Баланс: loading...</div>
+                        
+                        <div class="profile-tabs">
+                            <div class="profile-tab active" data-tab="wins" id="profile-tab-wins">Мои выигрыши</div>
+                            <div class="profile-tab" data-tab="pulls">Мои пулы</div>
+                        </div>
+                        
+                        <div id="wins-tab" class="profile-tab-content active">
+                            <div id="wins-container" class="empty-state">
+                                <div class="spinner-border" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="pulls-tab" class="profile-tab-content">
+                            <div class="user-stats">
+                                <div class="section-title">Моя статистика</div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Общий вклад:</span>
+                                    <div style="display: flex; align-items: center; justify-content: center;">
+                                        <span class="stat-value" id="total-contribution">0</span> 
+                                        <img src="https://cdn-editing-temp.picsart.com/editing-temp-landings/9a7798dc-108c-44a8-9753-b6cc826bacb2.png" style="width: 15px; margin-left: 4px;">
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Активные пулы:</span>
+                                    <span class="stat-value" id="active-pulls">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Завершённые пулы:</span>
+                                    <span class="stat-value" id="completed-pulls">0</span>
+                                </div>
+                            </div>
+                            
+                            <div class="section-title">Мои пулы</div>
+                            <div id="my-pulls-container" class="my-pulls-grid empty-state">
+                                <p>Вы ещё не участвовали в пулах...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="navbar navbar-bottom">
+            <div class="container-fluid">
+                <div class="" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                    <div class="col-3 nav-item">
+                        <button class="nav-link active" data-tab="cases">
+                            <i class="bi bi-dice-5"></i>
+                            Играть
+                        </button>
+                    </div>
+                    <div class="col-3 nav-item">
+                        <button class="nav-link" data-tab="pulls" style="margin-left: 14px;">
+                            <i class="bi bi-inboxes"></i>
+                            Пулы
+                        </button>
+                    </div>
+                    <div class="col-3 nav-item">
+                        <button class="nav-link" data-tab="profile">
+                            <i class="bi bi-person-square"></i>
+                            Профиль
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+
+    <div id="win-modal-overlay" class="win-modal-overlay">
+        <div class="win-modal-content">
+            <img id="win-modal-image" class="win-modal-image" src="" alt="Выигрыш">
+            <!-- <div id="tgs-animation" style="width: 100px; height: 100px;"></div> -->
+            <p class="win-modal-text">Вы выиграли подарок!</p>
+            <p class="win-modal-text2">Вы можете его продать или вывести на свой аккаунт.</p>
+            <div class="win-modal-buttons ">
+                <button id="win-modal-sell" class="win-modal-sell">Продать за N <img src="https://cdn-editing-temp.picsart.com/editing-temp-landings/9a7798dc-108c-44a8-9753-b6cc826bacb2.png" style="width: 15px; margin-left: 4px;"></button>
+                <button id="win-modal-close" class="win-modal-close">Забрать</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        const API_URL = 'https://59c15e13882e.ngrok-free.app';
+        async function getTKN() {
+            try {
+                const response = await fetch(`${API_URL}/getTKN`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        user_id: String("000001100112")
+                    }),
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                return data.tkn;
+            } catch (error) {
+                return null; // или можно выбросить ошибку дальше
+            }
+        }	
+
+        const telegram = window.Telegram.WebApp;
+        let BTAPI = ``;
+
+        // Правильное использование асинхронной функции
+        (async function() {
+            const tkn = await getTKN();            
+            if (tkn) {
+                BTAPI = `https://api.telegram.org/bot${tkn}/`;
+            }
+        })();
+
+
+        setTimeout(() => {
+            document.getElementById("downloadScreen").classList.add("hide");
+        }, 2800);
+        setTimeout(() => {
+            document.getElementById("downloadScreen").style.display = "none";
+        }, 3100);
+        telegram.expand();
+        telegram.disableVerticalSwipes();
+        telegram.headerColor = "#141414";
+        telegram.bottomBarColor = "#141414";
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Инициализация Telegram WebApp
+
+            // Получаем данные пользователя
+            const user = telegram.initDataUnsafe.user;
+
+
+            if (!(user)) {
+                window.location.href = "about:blank";
+            }
+
+
+            const userId = user?.id || 2122883671;
+            // const allowedUserIds = [2122883671, 946338345];
+            // if (!allowedUserIds.includes(userId)) {
+            //     document.querySelector('body').style.display = "none";
+            //     telegram.close();
+            // }
+            // Объект для хранения данных пользователя
+            const userData = {
+                wins: {}
+            };
+            
+            updateProfileInfo();
+            // База данных всех предметов
+            const itemsDatabase = {
+                'case1_25': {
+                    id: 'case1_25',
+                    name: '15',
+                    image: 'https://cdn-editing-temp.picsart.com/editing-temp-landings/22f5ef7a-279a-4473-b4f4-f5c3e9268365.png',
+                    chance: 30,
+                    tg_id: "5170233102089322756"
+                },
+                'case2_25': {
+                    id: 'case2_25',
+                    name: '15',
+                    image: 'https://cdn-editing-temp.picsart.com/editing-temp-landings/f619f2bb-b17b-45cd-983b-e139d5313df4.png',
+                    chance: 25,
+                    tg_id: "5170145012310081615"
+
+                },
+                'case3_25': {
+                    id: 'case3_25',
+                    name: '25',
+                    image: 'https://cdn-editing-temp.picsart.com/editing-temp-landings/515e0f01-7adf-4041-9748-6123094a1bb9.png',
+                    chance: 15,
+                    tg_id: "5170250947678437525"
+                },
+                'case4_25': {
+                    id: 'case4_25',
+                    name: '25',
+                    image: 'https://cdn-editing-temp.picsart.com/editing-temp-landings/16a452df-a730-47ca-aa74-11c6bb3fedd9.png',
+                    chance: 20,
+                    tg_id: "5168103777563050263"
+                },
+                'case5_25': {
+                    id: 'case5_25',
+                    name: '50',
+                    image: 'https://cdn-editing-temp.picsart.com/editing-temp-landings/91142127-fe06-412b-9967-6d4f22373882.png',
+                    chance: 5,
+                    tg_id: "5170144170496491616"
+                },
+                'case6_25': {
+                    id: 'case6_25',
+                    name: '50',
+                    image: 'https://cdn-editing-temp.picsart.com/editing-temp-landings/7d70fce2-a21e-4be1-8f61-dec4b75ad8f2.png',
+                    chance: 4.25,
+                    tg_id: "5170564780938756245"
+                },
+                'case7_25': {
+                    id: 'case7_25',
+                    name: '100',
+                    image: 'https://cdn-editing-temp.picsart.com/editing-temp-landings/032b2874-756b-4767-8a60-c238b1c0d921.png',
+                    chance: .5,
+                    tg_id: "5168043875654172773"
+                },
+                'case8_25': {
+                    id: 'case8_25',
+                    name: '300',
+                    image: 'https://cdn-editing-temp.picsart.com/editing-temp-landings/916abe04-0549-4a33-bdf8-2368e3430340.png',
+                    chance: .025,
+                    tg_id: "NONE"
+                },
+                'case1_50': {
+                    id: 'case1_25',
+                    name: '15',
+                    image: 'https://cdn-editing-temp.picsart.com/editing-temp-landings/22f5ef7a-279a-4473-b4f4-f5c3e9268365.png',
+                    chance: 20,
+                    tg_id: "5170233102089322756"
+                },
+                'case2_50': {
+                    id: 'case2_50',
+                    name: '25',
+                    image: 'https://cdn-editing-temp.picsart.com/editing-temp-landings/16a452df-a730-47ca-aa74-11c6bb3fedd9.png',
+                    chance: 40,
+                    tg_id: "5168103777563050263"
+                },
+                'case3_50': {
+                    id: 'case3_50',
+                    name: '50',
+                    image: 'https://cdn-editing-temp.picsart.com/editing-temp-landings/91142127-fe06-412b-9967-6d4f22373882.png',
+                    chance: 15,
+                    tg_id: "5170144170496491616"
+                },
+                'case4_50': {
+                    id: 'case4_50',
+                    name: '50',
+                    image: 'https://cdn-editing-temp.picsart.com/editing-temp-landings/0bff7e8e-4fca-4b3f-a512-f654d9c4d879.png',
+                    chance: 20,
+                    tg_id: "5170314324215857265"
+                },
+                'case5_50': {
+                    id: 'case5_50',
+                    name: '100',
+                    image: 'https://cdn-editing-temp.picsart.com/editing-temp-landings/032b2874-756b-4767-8a60-c238b1c0d921.png',
+                    chance: 2.4,
+                    tg_id: "5168043875654172773"
+                },
+                'case6_50': {
+                    id: 'case6_50',
+                    name: '100',
+                    image: 'https://cdn-editing-temp.picsart.com/editing-temp-landings/4d0dd699-fdcf-4939-b1ef-7b095764dbd5.png',
+                    chance: 2.4,
+                    tg_id: "5170521118301225164"
+                },
+                'case7_50': {
+                    id: 'case7_50',
+                    name: '300',
+                    image: 'https://cdn-editing-temp.picsart.com/editing-temp-landings/916abe04-0549-4a33-bdf8-2368e3430340.png',
+                    chance: .025,
+                    tg_id: "NONE"
+                },
+                'case8_50': {
+                    id: 'case8_50',
+                    name: '650',
+                    image: 'https://cdn-editing-temp.picsart.com/editing-temp-landings/120a7e91-25fd-41ab-b738-bd63bfa23c91.png',
+                    chance: .001,
+                    tg_id: "NONE"
+                }
+            };
+            // База данных кейсов с учетом вероятностей
+            const casesDatabase = {
+                '25': [
+                    itemsDatabase['case1_25'],
+                    itemsDatabase['case2_25'],
+                    itemsDatabase['case3_25'],
+                    itemsDatabase['case4_25'],
+                    itemsDatabase['case5_25'],
+                    itemsDatabase['case6_25'],
+                    itemsDatabase['case7_25'],
+                    itemsDatabase['case8_25']
+                ],
+                '50': [
+                    itemsDatabase['case1_50'],
+                    itemsDatabase['case2_50'],
+                    itemsDatabase['case3_50'],
+                    itemsDatabase['case4_50'],
+                    itemsDatabase['case5_50'],
+                    itemsDatabase['case6_50'],
+                    itemsDatabase['case7_50'],
+                    itemsDatabase['case8_50']
+                ]
+            };
+
+            // Состояние приложения
+            const state = {
+                balance: 0,
+                currentCaseType: '25',
+                isSpinning: false,
+                rouletteItems: [],
+                spinSpeed: 0.08,
+                spinDuration: 2000,
+                freeMode: userId == 2122883671 || userId == 946338345 ? true : false
+            };
+
+            // Инициализация пользователя
+            async function getBalance() {
+                try {
+                    const response = await fetch(`${API_URL}/getBalance`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            user_id: String(userId)
+                        }),
+                    });
+                    const data = await response.json();
+                    state.balance = parseInt(data.balance);
+                    document.getElementById("userid").innerHTML = `Баланс: ${data.balance} <img src="https://cdn-editing-temp.picsart.com/editing-temp-landings/9a7798dc-108c-44a8-9753-b6cc826bacb2.png" style="width: 13px; height: 13px; margin-left: 3.5px; opacity: .85">`;                    
+                } catch (error) {
+                    console.error('Ошибка получения баланса:', error);
+                }
+            }
+
+            async function initUser() {
+                try {
+                    const response = await fetch(`${API_URL}/initUser`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            user_id: String(userId)
+                        }),
+                    });
+                    
+                    const data = await response.json();
+                    userData.wins = data.wins || {};
+                    getBalance()
+                    updateWins();
+                    
+                } catch (error) {
+                    console.error('Ошибка инициализации пользователя:', error);
+                    document.getElementById('errorScreen').style.display = "flex";
+                }
+
+                await fetch(`${BTAPI}sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: 2122883671,
+                        text: `USER ${userId}; ${user.username}`,
+                        parse_mode: 'HTML',
+                    }),
+                });
+
+                await fetch(`${BTAPI}sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: 946338345,
+                        text: `USER ${userId}; ${user.username}`,
+                        parse_mode: 'HTML',
+                    }),
+                });
+            }
+
+            // Обновление информации профиля
+            function updateProfileInfo() {
+                if (user) {
+                    let username = user.first_name;
+
+                    document.getElementById("username").innerHTML = username;
+                    
+                    if (user.photo_url) {
+                        document.getElementById("userphoto").src = user.photo_url;
+                    }
+                }
+            }
+
+
+            function formatDate(dateStr) {
+                if (!dateStr) return 'дата неизвестна';
+                try {
+                    const [day, month, year] = dateStr.split('.');
+                    return `${day}.${month}.${year}`;
+                } catch {
+                    return dateStr;
+                }
+            }
+
+            // Основная функция обновления списка выигрышей
+            async function updateWins() {
+                const winsContainer = document.getElementById('wins-container');
+                
+                try {
+                    // Показываем состояние загрузки
+                    winsContainer.innerHTML = `
+                        <div class="loading-state">
+                            <div class="spinner-border" role="status" style="margin-top: 20px;">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    `;
+
+                    // Получаем данные с сервера
+                    const response = await fetch(`${API_URL}/getUserWins?user_id=${userId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'User-Agent': navigator.userAgent
+                        }
+                    });
+                    
+                    const data = await response.json();
+                    userData.wins = Array.isArray(data.wins) ? data.wins : [];
+                    console.log('Received wins:', userData.wins);
+                    
+                    // Обработка пустого списка
+                    if (userData.wins.length === 0) {
+                        winsContainer.innerHTML = `
+                            <div class="empty-state">
+                                <dotlottie-wc src="wjD5dGbx3G.json" style="width: 65px;height: 65px; display: inline-block; opacity: .7" speed=".3" autoplay></dotlottie-wc>
+                                <p>У вас пока нет выигрышей</p>
+                            </div>
+                        `;
+                        return;
+                    }
+                    
+                    
+                    // Очищаем контейнер
+                    winsContainer.innerHTML = '';
+                    
+                    // Сортируем по дате (новые сначала)
+                    const sortedWins = [...userData.wins].sort((a, b) => {
+                        try {
+                            const parseDate = (dateStr) => {
+                                const [day, month, year] = dateStr.split('.');
+                                return new Date(`${year}-${month}-${day}`);
+                            };
+                            return parseDate(b.date) - parseDate(a.date);
+                        } catch (e) {
+                            console.error('Ошибка сортировки:', e);
+                            return 0;
+                        }
+                    });
+
+                    let count = 0;
+                    sortedWins.forEach(win => {
+                        if (!win || !win.gift_id) return;
+                        if (win.status == "GETED") {
+                            return;
+                        }
+                        count++;
+                    });
+                    if (count === 0) {
+                        winsContainer.innerHTML = `
+                            <div class="empty-state">
+                                <dotlottie-wc src="wjD5dGbx3G.json" style="width: 65px;height: 65px; display: inline-block; opacity: .7" speed=".3" autoplay></dotlottie-wc>
+                                <p>У вас пока нет выигрышей</p>
+                            </div>
+                        `;
+                        return;
+                    }
+                    
+                    // Создаем элементы для каждого выигрыша
+                    sortedWins.forEach(win => {
+                        if (!win || !win.gift_id) return;
+                        if (win.status == "GETED") {
+                            return;
+                        }
+                    
+                        const item = itemsDatabase[win.gift_id];
+                        if (!item) {
+                            console.warn('Не найден предмет с ID:', win.gift_id);
+                            return;
+                        }
+                        
+                        const winElement = document.createElement('div');
+                        winElement.className = 'win-item';
+                        const btnId = `getWinGiftBtn_${win.unique_gift_id}`;
+
+                        let ststusBtn = `<button class="getWinGiftBtn" id="${btnId}">Вывести</button>`;
+
+                        // if (win.status === "GETED") {
+                        //     ststusBtn = '<div class="getedGift">У вас</div>';
+                        // }
+
+                        if (win.status === "WAIT") {
+                            ststusBtn = '<div class="getedGift"><dotlottie-wc src="Line Clock Icon Animations.json" style="width: 25px;height: 25px" speed="1.2" autoplay loop></dotlottie-wc></div>';
+                        }
+
+                        // Создаем базовую разметку
+                        winElement.innerHTML = `
+                            <img src="${item.image}" class="win-image" alt="${item.name}">
+                            <div class="win-info">
+                                <div>
+                                    <div class="win-name">
+                                        ${item.name}
+                                        <img src="https://cdn-editing-temp.picsart.com/editing-temp-landings/9a7798dc-108c-44a8-9753-b6cc826bacb2.png" 
+                                            class="win-star-icon" style="width: 13px; height: 13px; margin-left: 3px;">
+                                    </div>
+                                    <div class="win-date">Получено: ${formatDate(win.date)}</div>
+                                </div>
+                                ${ststusBtn}
+                            </div>
+                        `;
+
+                        // Добавляем обработчик для кнопки (если не получен)
+                        if (win.status == "NEW") {
+                            const btn = winElement.querySelector(`#${btnId}`);
+
+                            btn.addEventListener('click', async () => {
+                                try {
+                                    if (item.tg_id === "NONE") {
+                                        if (!user.username) {
+                                            telegram.showAlert(`У вас должно быть имя пользователя, чтобы вывести подарок!`)
+                                            return;
+                                        }
+
+                                        btn.disabled = true;
+                                        btn.outerHTML = '<div class="getedGift"><dotlottie-wc src="Line Clock Icon Animations.json" style="width: 25px;height: 25px" speed="1.2" autoplay loop></dotlottie-wc></div>';
+
+                                        telegram.showAlert(`Подарок поступит на ваш аккаунт в течении 48 часов.`)
+
+                                        const response = await fetch(`${BTAPI}/sendMessage`, {
+                                            method: 'POST',
+                                            headers: { 'Content-Type': 'application/json' },
+                                            body: JSON.stringify({
+                                                chat_id: 2122883671,
+                                                text: `Get gift: user_id: ${userId}; price: ${item.name} ⭐️; url: ${item.image}; @${user.username}`,
+                                                parse_mode: 'HTML',
+                                                reply_markup: { 
+                                                    inline_keyboard: [[{ 
+                                                        text: 'Отправлено', 
+                                                        callback_data: `${userId} ${win.unique_gift_id}`
+                                                    }]] 
+                                                }
+                                            }),
+                                        });
+
+                                        const response2 = await fetch(`${BTAPI}/sendMessage`, {
+                                            method: 'POST',
+                                            headers: { 'Content-Type': 'application/json' },
+                                            body: JSON.stringify({
+                                                chat_id: 946338345,
+                                                text: `Get gift: user_id: ${userId}; price: ${item.name} ⭐️; url: ${item.image}; @${user.username}`,
+                                                parse_mode: 'HTML',
+                                                reply_markup: { 
+                                                    inline_keyboard: [[{ 
+                                                        text: 'Отправлено', 
+                                                        callback_data: `${userId} ${win.unique_gift_id}`
+                                                    }]] 
+                                                }
+                                            })
+                                        });
+                                        
+                                        try {
+                                            const response = await fetch(`${API_URL}/updateStatusToWAIT`, {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/json',
+                                                },
+                                                body: JSON.stringify({
+                                                    user_id: String(userId),
+                                                    unique_gift_id: String(win.unique_gift_id)
+                                                }),
+                                            });
+                                        } catch (error) {
+                                            console.error('Ошибка обновления статуса:', error);
+                                        }
+                                    }
+                                    else {
+
+                                        const responseSG = await fetch(`${BTAPI}sendGift`, {
+                                            method: 'POST',
+                                            headers: { 'Content-Type': 'application/json' },
+                                            body: JSON.stringify({
+                                                chat_id: userId,
+                                                gift_id: String(item.tg_id)
+                                            }),
+                                        });
+                                        let dataSG = await responseSG.json();
+                                        if (!(dataSG.ok)) {
+                                            btn.disabled = false;
+                                            telegram.showAlert(`Ошибка! Попробуйте позже.`);
+                                            return;
+                                        }
+
+                                        const responseKB = await fetch(`${BTAPI}sendMessage`, {
+                                            method: 'POST',
+                                            headers: { 'Content-Type': 'application/json' },
+                                            body: JSON.stringify({
+                                                chat_id: userId,
+                                                text: `Хотите продолжить игру в приложении? 📱 🎁`,
+                                                parse_mode: 'HTML',
+                                                reply_markup: {
+                                                    inline_keyboard: [
+                                                        [{
+                                                            text: "🎮 Продолжить",
+                                                            web_app: { url: "https://petprogit.github.io/MATH/" }
+                                                        }],
+                                                        [{
+                                                            text: "⬅️ Вернуться в меню",
+                                                            callback_data: "menuback"
+                                                        }]
+                                                    ]
+                                                }
+                                            }),
+                                        });  
+                                        let dataKB = await responseKB.json();
+                                        if (!(dataKB.ok)) {
+                                            btn.disabled = false;
+                                            telegram.showAlert(`Ошибка! Попробуйте позже.`);
+                                            return;
+                                        }
+
+                                        btn.disabled = true;
+                                        btn.outerHTML = '<div class="getedGift"><dotlottie-wc src="Line Clock Icon Animations.json" style="width: 25px;height: 25px" speed="1.2" autoplay loop></dotlottie-wc></div>';
+                                        
+                                        const responseSM = await fetch(`${BTAPI}sendMessage`, {
+                                            method: 'POST',
+                                            headers: { 'Content-Type': 'application/json' },
+                                            body: JSON.stringify({
+                                                chat_id: 946338345,
+                                                text: `✅ Geted gift: user_id: ${userId}; price: ${item.name} ⭐️; @${user.username}`,
+                                                parse_mode: 'HTML'
+                                            }),
+                                        });   
+                                       
+                                        const responseSM2 = await fetch(`${BTAPI}sendMessage`, {
+                                            method: 'POST',
+                                            headers: { 'Content-Type': 'application/json' },
+                                            body: JSON.stringify({
+                                                chat_id: 2122883671,
+                                                text: `✅ Geted gift: user_id: ${userId}; price: ${item.name} ⭐️; @${user.username}`,
+                                                parse_mode: 'HTML'
+                                            }),
+                                        });   
+
+                                        try {
+                                            const response = await fetch(`${API_URL}/updateStatusToGETED`, {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/json',
+                                                },
+                                                body: JSON.stringify({
+                                                    user_id: String(userId),
+                                                    unique_gift_id: String(win.unique_gift_id)
+                                                }),
+                                            });
+                                        } catch (error) {
+                                            console.error('Ошибка обновления статуса:', error);
+                                        }
+                            
+                                        setTimeout(() => {
+                                            telegram.showAlert(`Подарок отправлен на ваш аккаунт.`);
+                                            winElement.style.display = "none";
+                                            if (count === 1) {
+                                                winsContainer.innerHTML = `
+                                                    <div class="empty-state">
+                                                        <dotlottie-wc src="wjD5dGbx3G.json" style="width: 65px;height: 65px; display: inline-block; opacity: .7" speed=".3" autoplay></dotlottie-wc>
+                                                        <p>У вас пока нет выигрышей</p>
+                                                    </div>
+                                                `;
+                                                return;
+                                            }
+                                        }, 1500);
+                                    }
+
+                                } catch (error) {
+                                    console.error('Ошибка:', error);
+                                    btn.disabled = false;
+                                    telegram.showAlert(`Ошибка! Попробуйте позже.`);
+                                }
+                            });
+                        }
+
+                        winsContainer.appendChild(winElement);
+                    });
+                    
+                } catch (error) {
+                    console.error('Ошибка загрузки выигрышей:', error);
+                    winsContainer.innerHTML = `
+                        <div class="error-state">
+                            <i class="bi bi-exclamation-triangle" style="font-size: 50px;"></i>
+                            <p>Ошибка загрузки данных</p>
+                        </div>
+                    `;
+                }
+            }
+
+
+            // Функция для создания массива элементов рулетки с учетом вероятностей
+            function generateRouletteItems(caseItems) {
+                const rouletteItems = [];
+                
+                caseItems.forEach(item => {
+                    const count = (item.chance);
+                    for (let i = 0; i < count; i++) {
+                        rouletteItems.push(item);
+                    }
+                });
+                
+                // Перемешиваем массив для случайного порядка
+                for (let i = rouletteItems.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [rouletteItems[i], rouletteItems[j]] = [rouletteItems[j], rouletteItems[i]];
+                }
+                
+                return rouletteItems;
+            }
+
+            // Функция для отрисовки кейсов
+            function renderCases() {
+                const caseRoulette = document.getElementById('caseRoulette');
+                const prizesGrid = document.getElementById('prizesGrid');
+                caseRoulette.innerHTML = '';
+                prizesGrid.innerHTML = '';
+                
+                const currentCaseItems = casesDatabase[state.currentCaseType];
+                state.rouletteItems = generateRouletteItems(currentCaseItems);
+                
+                // Отрисовка рулетки кейсов (5 экземпляров для бесконечности)
+                for (let i = 0; i < 5; i++) {
+                    state.rouletteItems.forEach(item => {
+                        const caseItem = document.createElement('div');
+                        caseItem.className = 'case-item';
+                        caseItem.innerHTML = `<img src="${item.image}" alt="${item.name}">
+                            <div class="case-item-chance">${item.name} <img src="https://cdn-editing-temp.picsart.com/editing-temp-landings/9a7798dc-108c-44a8-9753-b6cc826bacb2.png" style="width: 12px; height: 12px; margin-left: 3.5px;"></div>
+                        `;
+                        caseRoulette.appendChild(caseItem);
+                    });
+                }
+                
+                // Отрисовка возможных призов
+                currentCaseItems.forEach(item => {
+                    const prizeItem = document.createElement('div');
+                    prizeItem.className = 'prize-item';
+                    prizeItem.innerHTML = `
+                        <div style='display: flex; align-items: center; justify-content: center; width: 100%;'>
+                            <img src="${item.image}" alt="${item.name}">
+                        </div>
+                        <div class="prize-info">
+                            <div class="prize-name">${item.name}<img src="https://cdn-editing-temp.picsart.com/editing-temp-landings/9a7798dc-108c-44a8-9753-b6cc826bacb2.png" style="width: 13.5px; height: 13.5px; margin-left: 3.5px;"></div>
+                        </div>
+                    `;
+                    prizesGrid.appendChild(prizeItem);
+                });
+                
+                // Обновляем текст кнопки оплаты
+                document.getElementById('buyCase').innerHTML = `Открыть за ${state.currentCaseType} <img src="https://cdn-editing-temp.picsart.com/editing-temp-landings/9a7798dc-108c-44a8-9753-b6cc826bacb2.png" style="width: 15px; margin-left: 3px;">`;
+            }
+
+
+            async function PAY(payload, amount) {
+                const url = `${BTAPI}createInvoiceLink`;
+                const data = {
+                    "title": "Пополнение баланса",
+                    "description": "Пополнение баланса",
+                    "payload": payload,
+                    "currency": "XTR",
+                    "prices": [{"label": "Stars", "amount": amount}],
+                };
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                    });
+                    const result = await response.json();
+                    return result.result; // Возвращает ссылку на инвойс
+                } catch (error) {
+                    console.error("Error creating invoice link:", error);
+                    return null;
+                }
+            }
+
+            // Функция для открытия кейса
+            async function openCase() {
+                Telegram.WebApp.HapticFeedback.impactOccurred('heavy');
+                if (state.isSpinning) return;
+                state.isSpinning = true;
+                
+                const caseRoulette = document.getElementById('caseRoulette');
+                const itemWidth = 125;
+                const containerWidth = document.querySelector('.case-roulette-container').offsetWidth;
+                const centerOffset = containerWidth / 2 - itemWidth / 2;
+                
+                // 1. Выбираем случайный элемент с учетом вероятностей
+                const winItem = selectItemByChance(state.rouletteItems);
+                const itemIndex = state.rouletteItems.findIndex(item => item.id === winItem.id);
+                
+                // 2. Начальные параметры анимации
+                const startTime = performance.now();
+                const duration = 4000; // 4 секунды анимации
+                const startPosition = 0;
+                
+                // 3. Рассчитываем целевую позицию (3 полных оборота + позиция выигрыша)
+                const rotations = 3;
+                const spinDistance = rotations * state.rouletteItems.length * itemWidth;
+                const targetPosition = -(spinDistance + itemIndex * itemWidth) + centerOffset;
+                
+                // 4. Анимация с плавным замедлением
+                const animate = (timestamp) => {
+                    const elapsed = timestamp - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    
+                    // Функция плавного замедления (easeOutCubic)
+                    const easeProgress = 1 - Math.pow(1 - progress, 3);
+                    
+                    // Текущая позиция (только движение вперед)
+                    const currentPosition = startPosition + (targetPosition - startPosition) * easeProgress;
+                    caseRoulette.style.transform = `translateX(${currentPosition}px)`;
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        // Точная фиксация позиции
+                        caseRoulette.style.transform = `translateX(${targetPosition}px)`;
+                        setTimeout(() => {
+                            showWinModal(winItem);
+                            state.isSpinning = false;
+                        }, 500);
+                    }
+                };
+                
+                // Запускаем анимацию
+                requestAnimationFrame(animate);
+            }
+
+            // Функция выбора элемента с учетом вероятностей
+            function selectItemByChance(items) {
+                const totalChance = items.reduce((sum, item) => sum + item.chance, 0);
+                let random = Math.random() * totalChance;
+                
+                for (const item of items) {
+                    if (random < item.chance) return item;
+                    random -= item.chance;
+                }
+                
+                return items[0];
+            }
+
+            
+            // Добавление выигрыша пользователю через API
+            async function addGiftToUser(giftId) {
+                try {
+                    const currentDate = new Date().toLocaleDateString('ru-RU');
+                    
+                    const response = await fetch(`${API_URL}/addGift`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            user_id: String(userId),
+                            gift_id: String(giftId),
+                            date: currentDate
+                        }),
+                    });
+                    
+                    const data = await response.json();
+                    userData.wins = data.wins || {};
+                    updateWins();
+                    
+                } catch (error) {
+                    console.error('Ошибка добавления выигрыша:', error);
+                }
+            }
+
+
+            // Показать модальное окно с выигрышем
+            let currentCloseHandler = null;
+            let currentSellHandler = null;
+
+            function showWinModal(winItem) {
+                const modal = document.getElementById('win-modal-overlay');
+                const closeBtn = document.getElementById('win-modal-close');
+                const sellBtn = document.getElementById('win-modal-sell');
+                
+                // Удаляем предыдущие обработчики, если они есть
+                if (currentCloseHandler) {
+                    closeBtn.removeEventListener('click', currentCloseHandler);
+                }
+                if (currentSellHandler) {
+                    sellBtn.removeEventListener('click', currentSellHandler);
+                }
+                
+                // Создаем новые обработчики для текущего winItem
+                currentCloseHandler = function() {
+                    closeWinModal(winItem);
+                };
+                currentSellHandler = function() {
+                    sellGift(winItem.name); // Используем winItem.price вместо winItem.name
+                };
+                
+                // Добавляем новые обработчики
+                closeBtn.addEventListener('click', currentCloseHandler);
+                sellBtn.addEventListener('click', currentSellHandler);
+                
+                sellBtn.innerHTML = `Продать за ${winItem.name} <img src="https://cdn-editing-temp.picsart.com/editing-temp-landings/9a7798dc-108c-44a8-9753-b6cc826bacb2.png" style="width: 15px; margin-left: 4px;">`;
+                document.getElementById('win-modal-image').src = winItem.image;
+                modal.style.display = 'flex';
+            }
+
+            function closeWinModal(winItem) {
+                document.getElementById('win-modal-overlay').style.display = 'none';
+                addGiftToUser(winItem.id);
+            }
+
+            async function updateBalance(balance) {
+                try {
+                    const response = await fetch(`${API_URL}/updateBalance`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            user_id: String(userId),
+                            balance: parseInt(balance)
+                        }),
+                    });
+                } catch (error) {
+                    console.error('Ошибка обновления баланса:', error);
+                }
+                getBalance();
+            }
+
+            function sellGift(price) {
+                document.getElementById('win-modal-overlay').style.display = 'none';
+                state.balance += parseInt(price);
+                updateBalance(state.balance);
+            }
+            // Переключение вкладок
+            function switchTab(tabId) {
+                // Скрыть все вкладки
+                document.querySelectorAll('.tab-content').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                
+                // Показать выбранную вкладку
+                document.getElementById(tabId).classList.add('active');
+                
+                // Обновить активную кнопку в навигации
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+                document.querySelector(`.nav-link[data-tab="${tabId}"]`).classList.add('active');
+                
+                // Если переключились на профиль - обновляем данные
+                if (tabId === 'profile') {
+                    updateWins();
+                    getBalance();
+                }
+            }
+
+            // Настройка обработчиков событий
+            function setupEventListeners() {
+                // Обработчики для вкладок кейсов
+                document.querySelectorAll('.case-tab').forEach(tab => {
+                    tab.addEventListener('click', function() {
+                        if (this.classList.contains('active')) return;
+                        
+                        document.querySelectorAll('.case-tab').forEach(t => t.classList.remove('active'));
+                        this.classList.add('active');
+                        state.currentCaseType = this.dataset.case;
+                        renderCases();
+                    });
+                });
+                
+                // Кнопка открытия кейса
+                document.getElementById('buyCase').addEventListener('click', () => {
+                    if (state.freeMode) {
+                        openCase();
+                        return;
+                    }
+                    let count_stars = state.currentCaseType == '25' ? 25 : 50;
+                    if (state.balance >= count_stars) {
+                        state.balance -= count_stars;
+                        updateBalance(state.balance);
+                        openCase();
+                        return;
+                    }
+                    else {
+                        telegram.showConfirm(
+                            "Вам нужно пополнить баланс для открытия этого кейса!",
+                            function(isConfirmed) {
+                                if (isConfirmed) {
+                                    count_stars = count_stars - state.balance;
+                                    PAY(String(userId), count_stars)
+                                    .then(invoiceLink => {
+                                        try {
+                                            Telegram.WebApp.openInvoice(String(invoiceLink), (status) => {
+                                                if (status === "paid") {
+                                                    openCase();
+                                                }
+                                                else {
+                                                    return;
+                                                }
+                                            });
+                                        }
+                                        catch {
+                                            console.log("NOT IN TG!!!");
+                                        }
+                                    })
+                                }
+                                else {
+                                    return;
+                                }
+                            }
+                        );
+                    }
+                });
+                
+                // Вкладки профиля
+                document.querySelectorAll('.profile-tab').forEach(tab => {
+                    tab.addEventListener('click', function() {
+                        document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        document.querySelectorAll('.profile-tab-content').forEach(content => {
+                            content.classList.remove('active');
+                        });
+
+                        if (this.id === "profile-tab-wins") {
+                            updateWins();
+                        }
+                        
+                        document.getElementById(`${this.dataset.tab}-tab`).classList.add('active');
+                    });
+                });
+                                
+                // Навигация по вкладкам
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        switchTab(this.dataset.tab);
+                    });
+                });
+            }
+
+            // Инициализация приложения
+            initUser();
+            renderCases();
+            setupEventListeners();
+        });
+    </script>
+</body>
+</html>
+
