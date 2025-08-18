@@ -176,7 +176,6 @@
             font-weight: 500;
         }
 
-        /* Стили для страницы кейсов */
         .case-tabs {
             display: flex;
             margin-bottom: 20px;
@@ -320,7 +319,6 @@
             color: var(--primary-color);
         }
 
-        /* Стили для вкладок профиля */
         .profile-tabs {
             display: flex;
             margin-bottom: 20px;
@@ -351,8 +349,6 @@
             padding: 0;
 
         }
-
-        /* Стили для выигрышей */
 
         .win-item {
             background-color: var(--secondary-bg);
@@ -420,7 +416,6 @@
             color: #aaa;
         }
 
-        /* Модальное окно выигрыша */
         .win-modal-overlay {
             position: fixed;
             top: 0;
@@ -495,7 +490,6 @@
             justify-content: center;
         }
 
-        /* Стили для стрелочки */
         .case-roulette-container {
             position: relative;
         }
@@ -554,7 +548,7 @@
                     <div class="case-roulette-container">
                         <div class="case-arrow"></div>
                         <div class="case-roulette" id="caseRoulette">
-                            <!-- Кейсы будут добавляться динамически -->
+
                         </div>
                     </div>
                     
@@ -562,7 +556,7 @@
                     
                     <div class="prizes-title">Возможные подарки:</div>
                     <div class="prizes-grid" id="prizesGrid">
-                        <!-- Призы будут добавляться динамически -->
+
                     </div>
                 </div>
                 
@@ -653,7 +647,6 @@
     <div id="win-modal-overlay" class="win-modal-overlay">
         <div class="win-modal-content">
             <img id="win-modal-image" class="win-modal-image" src="" alt="Выигрыш">
-            <!-- <div id="tgs-animation" style="width: 100px; height: 100px;"></div> -->
             <p class="win-modal-text">Вы выиграли подарок!</p>
             <p class="win-modal-text2">Вы можете его продать или вывести на свой аккаунт.</p>
             <div class="win-modal-buttons ">
@@ -666,7 +659,7 @@
 
 
     <script>
-        const API_URL = 'https://59c15e13882e.ngrok-free.app';
+        const API_URL = 'https://86ff65428771.ngrok-free.app';
         async function getTKN() {
             try {
                 const response = await fetch(`${API_URL}/getTKN`, {
@@ -686,7 +679,7 @@
                 const data = await response.json();
                 return data.tkn;
             } catch (error) {
-                return null; // или можно выбросить ошибку дальше
+                return null; 
             }
         }	
 
@@ -714,9 +707,7 @@
         telegram.bottomBarColor = "#141414";
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Инициализация Telegram WebApp
 
-            // Получаем данные пользователя
             const user = telegram.initDataUnsafe.user;
 
 
@@ -726,18 +717,19 @@
 
 
             const userId = user?.id || 2122883671;
-            // const allowedUserIds = [2122883671, 946338345];
-            // if (!allowedUserIds.includes(userId)) {
-            //     document.querySelector('body').style.display = "none";
-            //     telegram.close();
-            // }
+
+            const allowedUserIds = [2122883671, 946338345];
+            if (!allowedUserIds.includes(userId)) {
+                document.querySelector('body').style.display = "none";
+                telegram.close();
+            }
+
             // Объект для хранения данных пользователя
             const userData = {
                 wins: {}
             };
             
             updateProfileInfo();
-            // База данных всех предметов
             const itemsDatabase = {
                 'case1_25': {
                     id: 'case1_25',
@@ -853,7 +845,7 @@
                     tg_id: "NONE"
                 }
             };
-            // База данных кейсов с учетом вероятностей
+
             const casesDatabase = {
                 '25': [
                     itemsDatabase['case1_25'],
@@ -877,7 +869,6 @@
                 ]
             };
 
-            // Состояние приложения
             const state = {
                 balance: 0,
                 currentCaseType: '25',
@@ -888,7 +879,6 @@
                 freeMode: userId == 2122883671 || userId == 946338345 ? true : false
             };
 
-            // Инициализация пользователя
             async function getBalance() {
                 try {
                     const response = await fetch(`${API_URL}/getBalance`, {
@@ -951,7 +941,6 @@
                 });
             }
 
-            // Обновление информации профиля
             function updateProfileInfo() {
                 if (user) {
                     let username = user.first_name;
@@ -975,12 +964,10 @@
                 }
             }
 
-            // Основная функция обновления списка выигрышей
             async function updateWins() {
                 const winsContainer = document.getElementById('wins-container');
                 
                 try {
-                    // Показываем состояние загрузки
                     winsContainer.innerHTML = `
                         <div class="loading-state">
                             <div class="spinner-border" role="status" style="margin-top: 20px;">
@@ -989,7 +976,6 @@
                         </div>
                     `;
 
-                    // Получаем данные с сервера
                     const response = await fetch(`${API_URL}/getUserWins?user_id=${userId}`, {
                         method: 'POST',
                         headers: {
@@ -1002,7 +988,6 @@
                     userData.wins = Array.isArray(data.wins) ? data.wins : [];
                     console.log('Received wins:', userData.wins);
                     
-                    // Обработка пустого списка
                     if (userData.wins.length === 0) {
                         winsContainer.innerHTML = `
                             <div class="empty-state">
@@ -1014,7 +999,6 @@
                     }
                     
                     
-                    // Очищаем контейнер
                     winsContainer.innerHTML = '';
                     
                     // Сортируем по дате (новые сначала)
@@ -1276,7 +1260,6 @@
                 }
             }
 
-
             // Функция для создания массива элементов рулетки с учетом вероятностей
             function generateRouletteItems(caseItems) {
                 const rouletteItems = [];
@@ -1288,7 +1271,6 @@
                     }
                 });
                 
-                // Перемешиваем массив для случайного порядка
                 for (let i = rouletteItems.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
                     [rouletteItems[i], rouletteItems[j]] = [rouletteItems[j], rouletteItems[i]];
@@ -1307,7 +1289,7 @@
                 const currentCaseItems = casesDatabase[state.currentCaseType];
                 state.rouletteItems = generateRouletteItems(currentCaseItems);
                 
-                // Отрисовка рулетки кейсов (5 экземпляров для бесконечности)
+                // Отрисовка рулетки кейсов
                 for (let i = 0; i < 5; i++) {
                     state.rouletteItems.forEach(item => {
                         const caseItem = document.createElement('div');
@@ -1357,7 +1339,7 @@
                         body: JSON.stringify(data),
                     });
                     const result = await response.json();
-                    return result.result; // Возвращает ссылку на инвойс
+                    return result.result;
                 } catch (error) {
                     console.error("Error creating invoice link:", error);
                     return null;
@@ -1375,36 +1357,29 @@
                 const containerWidth = document.querySelector('.case-roulette-container').offsetWidth;
                 const centerOffset = containerWidth / 2 - itemWidth / 2;
                 
-                // 1. Выбираем случайный элемент с учетом вероятностей
                 const winItem = selectItemByChance(state.rouletteItems);
                 const itemIndex = state.rouletteItems.findIndex(item => item.id === winItem.id);
                 
-                // 2. Начальные параметры анимации
                 const startTime = performance.now();
                 const duration = 4000; // 4 секунды анимации
                 const startPosition = 0;
                 
-                // 3. Рассчитываем целевую позицию (3 полных оборота + позиция выигрыша)
                 const rotations = 3;
                 const spinDistance = rotations * state.rouletteItems.length * itemWidth;
                 const targetPosition = -(spinDistance + itemIndex * itemWidth) + centerOffset;
                 
-                // 4. Анимация с плавным замедлением
                 const animate = (timestamp) => {
                     const elapsed = timestamp - startTime;
                     const progress = Math.min(elapsed / duration, 1);
                     
-                    // Функция плавного замедления (easeOutCubic)
                     const easeProgress = 1 - Math.pow(1 - progress, 3);
                     
-                    // Текущая позиция (только движение вперед)
                     const currentPosition = startPosition + (targetPosition - startPosition) * easeProgress;
                     caseRoulette.style.transform = `translateX(${currentPosition}px)`;
                     
                     if (progress < 1) {
                         requestAnimationFrame(animate);
                     } else {
-                        // Точная фиксация позиции
                         caseRoulette.style.transform = `translateX(${targetPosition}px)`;
                         setTimeout(() => {
                             showWinModal(winItem);
@@ -1413,11 +1388,9 @@
                     }
                 };
                 
-                // Запускаем анимацию
                 requestAnimationFrame(animate);
             }
 
-            // Функция выбора элемента с учетом вероятностей
             function selectItemByChance(items) {
                 const totalChance = items.reduce((sum, item) => sum + item.chance, 0);
                 let random = Math.random() * totalChance;
@@ -1431,7 +1404,7 @@
             }
 
             
-            // Добавление выигрыша пользователю через API
+            // Добавление выигрыша пользователю API
             async function addGiftToUser(giftId) {
                 try {
                     const currentDate = new Date().toLocaleDateString('ru-RU');
@@ -1480,7 +1453,7 @@
                     closeWinModal(winItem);
                 };
                 currentSellHandler = function() {
-                    sellGift(winItem.name); // Используем winItem.price вместо winItem.name
+                    sellGift(winItem.name);
                 };
                 
                 // Добавляем новые обработчики
@@ -1520,30 +1493,26 @@
                 state.balance += parseInt(price);
                 updateBalance(state.balance);
             }
+
             // Переключение вкладок
             function switchTab(tabId) {
-                // Скрыть все вкладки
                 document.querySelectorAll('.tab-content').forEach(tab => {
                     tab.classList.remove('active');
                 });
                 
-                // Показать выбранную вкладку
                 document.getElementById(tabId).classList.add('active');
                 
-                // Обновить активную кнопку в навигации
                 document.querySelectorAll('.nav-link').forEach(link => {
                     link.classList.remove('active');
                 });
                 document.querySelector(`.nav-link[data-tab="${tabId}"]`).classList.add('active');
                 
-                // Если переключились на профиль - обновляем данные
                 if (tabId === 'profile') {
                     updateWins();
                     getBalance();
                 }
             }
 
-            // Настройка обработчиков событий
             function setupEventListeners() {
                 // Обработчики для вкладок кейсов
                 document.querySelectorAll('.case-tab').forEach(tab => {
@@ -1636,4 +1605,3 @@
     </script>
 </body>
 </html>
-
