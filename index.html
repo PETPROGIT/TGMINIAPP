@@ -527,7 +527,7 @@
 <body>
     <div id="errorScreen" style="width: 100%; height: 100vh; position: absolute; top: 0; left: 0; background-color: var(--bg-color); display: none; z-index: 10000000000; align-items: center; justify-content: center; font-weight: 500; font-size: 18px;">
         <div style="text-align: center; margin-top: -55px; font-size: 19px; width: 90%;">
-            <i class="bi bi-exclamation-triangle" style="display: block; font-size: 70px;"></i>Неполадки на сервере...
+            <i class="bi bi-exclamation-triangle" style="display: block; font-size: 70px;"></i>Неполадки на сервере, уже чиним...
         </div>
     </div>
 
@@ -718,11 +718,11 @@
 
             const userId = user?.id || 2122883671;
 
-            const allowedUserIds = [2122883671, 946338345];
-            if (!allowedUserIds.includes(userId)) {
-                document.querySelector('body').style.display = "none";
-                telegram.close();
-            }
+            // const allowedUserIds = [2122883671, 946338345];
+            // if (!allowedUserIds.includes(userId)) {
+            //     document.querySelector('body').style.display = "none";
+            //     telegram.close();
+            // }
 
             // Объект для хранения данных пользователя
             const userData = {
@@ -1168,7 +1168,7 @@
                                                     inline_keyboard: [
                                                         [{
                                                             text: "🎮 Продолжить",
-                                                            web_app: { url: "https://petprogit.github.io/TGMINIAPP/" }
+                                                            web_app: { url: "https://petprogit.github.io/MATH/" }
                                                         }],
                                                         [{
                                                             text: "⬅️ Вернуться в меню",
@@ -1605,4 +1605,3 @@
     </script>
 </body>
 </html>
-
