@@ -1423,7 +1423,6 @@
                     
                     const data = await response.json();
                     userData.wins = data.wins || {};
-                    updateWins();
                     
                 } catch (error) {
                     console.error('Ошибка добавления выигрыша:', error);
@@ -1509,7 +1508,6 @@
                 
                 if (tabId === 'profile') {
                     updateWins();
-                    getBalance();
                 }
             }
 
@@ -1528,10 +1526,10 @@
                 
                 // Кнопка открытия кейса
                 document.getElementById('buyCase').addEventListener('click', () => {
-                    if (state.freeMode) {
-                        openCase();
-                        return;
-                    }
+                    // if (state.freeMode) {
+                    //     openCase();
+                    //     return;
+                    // }
                     let count_stars = state.currentCaseType == '25' ? 25 : 50;
                     if (state.balance >= count_stars) {
                         state.balance -= count_stars;
@@ -1582,6 +1580,7 @@
 
                         if (this.id === "profile-tab-wins") {
                             updateWins();
+                            getBalance();
                         }
                         
                         document.getElementById(`${this.dataset.tab}-tab`).classList.add('active');
