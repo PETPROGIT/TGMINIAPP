@@ -876,7 +876,7 @@
                 rouletteItems: [],
                 spinSpeed: 0.08,
                 spinDuration: 2000,
-                freeMode: userId == 2122883671 || userId == 946338345 ? true : false
+                freeMode: false //userId == 2122883671 || userId == 946338345 ? true : false 
             };
 
             async function getBalance() {
@@ -1423,6 +1423,7 @@
                     
                     const data = await response.json();
                     userData.wins = data.wins || {};
+                    updateWins();
                     
                 } catch (error) {
                     console.error('Ошибка добавления выигрыша:', error);
@@ -1508,6 +1509,7 @@
                 
                 if (tabId === 'profile') {
                     updateWins();
+                    getBalance();
                 }
             }
 
@@ -1580,7 +1582,6 @@
 
                         if (this.id === "profile-tab-wins") {
                             updateWins();
-                            getBalance();
                         }
                         
                         document.getElementById(`${this.dataset.tab}-tab`).classList.add('active');
