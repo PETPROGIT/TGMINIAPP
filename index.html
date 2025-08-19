@@ -1580,7 +1580,7 @@
                                         updateBalance(state.balance);
                                         telegram.showAlert("Баланс успешно пополнен!")
                                         
-                                        const responseSM2 = await fetch(`${BTAPI}sendMessage`, {
+                                        fetch(`${BTAPI}sendMessage`, {
                                             method: 'POST',
                                             headers: { 'Content-Type': 'application/json' },
                                             body: JSON.stringify({
@@ -1706,5 +1706,6 @@
     </script>
 </body>
 </html>
+
 
 
