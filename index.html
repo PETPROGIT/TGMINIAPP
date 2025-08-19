@@ -695,7 +695,7 @@
 
     <div class="offcanvas offcanvas-bottom replenishBalanceModal" tabindex="-1" id="mdlBlnce" aria-labelledby="offcanvasBottomLabel">
         <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasBottomLabel" style="font-size: 19px;">Пополнение а</h5>
+            <h5 class="offcanvas-title" id="offcanvasBottomLabel" style="font-size: 19px;">Пополнение баланса</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" style="filter: invert(1) brightness(100);"></button>
         </div>
         <div class="offcanvas-body ">
@@ -1567,7 +1567,10 @@
                     let sumToReplenish;
                     sumToReplenish = parseInt(input.value);
                     if (!sumToReplenish || sumToReplenish < 0) {
-                        console.log("error");
+                        return;
+                    }
+                    if (!sumToReplenish || sumToReplenish >= 100000) {
+                        telegram.showAlert("Введите сумму до 100.000!")
                         return;
                     }
                     else {
@@ -1579,9 +1582,11 @@
                                         state.balance += sumToReplenish;
                                         updateBalance(state.balance);
                                         telegram.showAlert("Баланс успешно пополнен!")
+                                        input.value = "";
                                     }
                                     else {
                                         return;
+                                        input.value = "";
                                     }
                                 });
                             }
@@ -1618,10 +1623,16 @@
                         return;
                     }
                     else {
-                        telegram.showConfirm(
-                            "Вам нужно пополнить баланс для открытия этого кейса!",
-                            function(isConfirmed) {
-                                if (isConfirmed) {
+                        telegram.showPopup({
+                            title: "Недостаточно средств",
+                            message: "Вам нужно пополнить баланс для открытия этого кейса!",
+                            buttons: [
+                                {type: "default", text: "Пополнить", id: "yes"},
+                                {type: "destructive", text: "Отмена", id: "no"}
+                            ]
+                            },
+                            function(buttonId) {
+                                if (buttonId === "yes") {
                                     count_stars = count_stars - state.balance;
                                     PAY(String("APP"), count_stars)
                                     .then(invoiceLink => {
@@ -1685,6 +1696,3 @@
     </script>
 </body>
 </html>
-
-
-
