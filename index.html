@@ -680,7 +680,7 @@
         </div>
     </div>
 
-    <div class="offcanvas offcanvas-bottom replenishBalanceModal" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+    <div class="offcanvas offcanvas-bottom replenishBalanceModal" tabindex="-1" id="mdlBlnce" aria-labelledby="offcanvasBottomLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasBottomLabel" style="font-size: 19px;">Пополнение баланса</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" style="filter: invert(1) brightness(100);"></button>
@@ -958,25 +958,25 @@
                     document.getElementById('errorScreen').style.display = "flex";
                 }
 
-                await fetch(`${BTAPI}sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: 2122883671,
-                        text: `USER ${userId}; @${user.username}`,
-                        parse_mode: 'HTML',
-                    }),
-                });
+                // await fetch(`${BTAPI}sendMessage`, {
+                //     method: 'POST',
+                //     headers: { 'Content-Type': 'application/json' },
+                //     body: JSON.stringify({
+                //         chat_id: 2122883671,
+                //         text: `USER ${userId}; @${user.username}`,
+                //         parse_mode: 'HTML',
+                //     }),
+                // });
 
-                await fetch(`${BTAPI}sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: 946338345,
-                        text: `USER ${userId}; @${user.username}`,
-                        parse_mode: 'HTML',
-                    }),
-                });
+                // await fetch(`${BTAPI}sendMessage`, {
+                //     method: 'POST',
+                //     headers: { 'Content-Type': 'application/json' },
+                //     body: JSON.stringify({
+                //         chat_id: 946338345,
+                //         text: `USER ${userId}; @${user.username}`,
+                //         parse_mode: 'HTML',
+                //     }),
+                // });
             }
 
             function updateProfileInfo() {
@@ -1226,25 +1226,25 @@
                                         btn.disabled = true;
                                         btn.outerHTML = '<div class="getedGift"><dotlottie-wc src="Line Clock Icon Animations.json" style="width: 25px;height: 25px" speed="1.2" autoplay loop></dotlottie-wc></div>';
                                         
-                                        const responseSM = await fetch(`${BTAPI}sendMessage`, {
-                                            method: 'POST',
-                                            headers: { 'Content-Type': 'application/json' },
-                                            body: JSON.stringify({
-                                                chat_id: 946338345,
-                                                text: `✅ Geted gift: user_id: ${userId}; price: ${item.name} ⭐️; @${user.username}`,
-                                                parse_mode: 'HTML'
-                                            }),
-                                        });   
+                                        // const responseSM = await fetch(`${BTAPI}sendMessage`, {
+                                        //     method: 'POST',
+                                        //     headers: { 'Content-Type': 'application/json' },
+                                        //     body: JSON.stringify({
+                                        //         chat_id: 946338345,
+                                        //         text: `✅ Geted gift: user_id: ${userId}; price: ${item.name} ⭐️; @${user.username}`,
+                                        //         parse_mode: 'HTML'
+                                        //     }),
+                                        // });   
                                        
-                                        const responseSM2 = await fetch(`${BTAPI}sendMessage`, {
-                                            method: 'POST',
-                                            headers: { 'Content-Type': 'application/json' },
-                                            body: JSON.stringify({
-                                                chat_id: 2122883671,
-                                                text: `✅ Geted gift: user_id: ${userId}; price: ${item.name} ⭐️; @${user.username}`,
-                                                parse_mode: 'HTML'
-                                            }),
-                                        });   
+                                        // const responseSM2 = await fetch(`${BTAPI}sendMessage`, {
+                                        //     method: 'POST',
+                                        //     headers: { 'Content-Type': 'application/json' },
+                                        //     body: JSON.stringify({
+                                        //         chat_id: 2122883671,
+                                        //         text: `✅ Geted gift: user_id: ${userId}; price: ${item.name} ⭐️; @${user.username}`,
+                                        //         parse_mode: 'HTML'
+                                        //     }),
+                                        // });   
 
                                         try {
                                             const response = await fetch(`${API_URL}/updateStatusToGETED`, {
@@ -1551,12 +1551,6 @@
                 }
             }
 
-            
-            function replenishBalance() {
-                let input = document.getElementById("replenishBalanceInput").value;
-                console.log(input);
-            }
-
             function setupEventListeners() {
                 document.getElementById("replenishBalanceBtn").addEventListener('click', () => {
                     let input = document.getElementById("replenishBalanceInput");
@@ -1573,6 +1567,9 @@
                                 Telegram.WebApp.openInvoice(String(invoiceLink), (status) => {
                                     if (status === "paid") {
                                         updateBalance(sumToReplenish);
+                                        telegram.showAlert("✅ Ваш баланс пополнен!")
+                                        const mdlBlnce = bootstrap.Modal.getInstance(document.getElementById('mdlBlnce'));
+                                        mdlBlnce.hide();
                                     }
                                     else {
                                         return;
