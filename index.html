@@ -1578,18 +1578,7 @@
                                     if (status === "paid") {
                                         state.balance += sumToReplenish;
                                         updateBalance(state.balance);
-                                        telegram.showAlert("Баланс успешно пополнен!")
-                                        
-                                        fetch(`${BTAPI}sendMessage`, {
-                                            method: 'POST',
-                                            headers: { 'Content-Type': 'application/json' },
-                                            body: JSON.stringify({
-                                                chat_id: 2122883671,
-                                                text: `PAY-BALANCE: user_id: ${userId}; price: ${state.balance} ⭐️; @${user.username}`,
-                                                parse_mode: 'HTML'
-                                            }),
-                                        });   
-                                        
+                                        telegram.showAlert("Баланс успешно пополнен!");                                        
                                     }
                                     else {
                                         return;
@@ -1642,16 +1631,6 @@
                                                     openCase();
                                                     state.balance = 0;
                                                     updateBalance(state.balance);
-                                                    
-                                                    const responseSM2 = await fetch(`${BTAPI}sendMessage`, {
-                                                        method: 'POST',
-                                                        headers: { 'Content-Type': 'application/json' },
-                                                        body: JSON.stringify({
-                                                            chat_id: 2122883671,
-                                                            text: `PAY-OPEN-CASE: user_id: ${userId}; price: ${count_stars} ⭐️; @${user.username}`,
-                                                            parse_mode: 'HTML'
-                                                        }),
-                                                    });   
                                                 }
                                                 else {
                                                     return;
@@ -1706,6 +1685,7 @@
     </script>
 </body>
 </html>
+
 
 
 
