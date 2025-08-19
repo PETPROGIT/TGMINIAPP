@@ -1562,13 +1562,13 @@
                         return;
                     }
                     else {
-                        PAY(String(userId), sumToReplenish)
+                        PAY(String("APP"), sumToReplenish)
                         .then(invoiceLink => {
                             try {
                                 Telegram.WebApp.openInvoice(String(invoiceLink), (status) => {
                                     if (status === "paid") {
                                         updateBalance(state.balance + sumToReplenish);
-                                        telegram.showAlert("✅ Баланс успешно пополнен!")
+                                        telegram.showAlert("Баланс успешно пополнен!")
                                         const mdlBlnce = bootstrap.Modal.getInstance(document.getElementById('mdlBlnce'));
                                         mdlBlnce.hide();
                                     }
@@ -1615,7 +1615,7 @@
                             function(isConfirmed) {
                                 if (isConfirmed) {
                                     count_stars = count_stars - state.balance;
-                                    PAY(String(userId), count_stars)
+                                    PAY(String("APP"), count_stars)
                                     .then(invoiceLink => {
                                         try {
                                             Telegram.WebApp.openInvoice(String(invoiceLink), (status) => {
@@ -1675,3 +1675,4 @@
     </script>
 </body>
 </html>
+
