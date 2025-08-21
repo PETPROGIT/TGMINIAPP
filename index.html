@@ -263,7 +263,7 @@
             border-radius: 10px;
             font-weight: 500;
             font-size: 16px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             margin-top: -5px;
             cursor: pointer;
             display: flex;
@@ -559,7 +559,17 @@
             box-shadow: none !important;
             border: none;
         }
-
+        .demoBlock {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            margin-top: -22px;
+            border-radius: 10px 10px;
+            padding: 0 5px;
+            font-weight: 500;
+            color: #aaaaaa;
+        }
     </style>
 </head>
 <body>
@@ -589,7 +599,7 @@
 
                         </div>
                     </div>
-                    
+                    <div class="demoBlock">Демо-режим<i id="demoModeToggle" class="bi bi-toggle-off" style="font-size: 34px;"></i></div>
                     <button class="buy-btn" id="buyCase">Оплатить</button>
                     
                     <div class="prizes-title">Возможные подарки:</div>
@@ -686,7 +696,7 @@
         <div class="win-modal-content">
             <img id="win-modal-image" class="win-modal-image" src="" alt="Выигрыш">
             <p class="win-modal-text">Вы выиграли подарок!</p>
-            <p class="win-modal-text2">Вы можете его продать или вывести на свой аккаунт.</p>
+            <p class="win-modal-text2" id="win-modal-text2">Вы можете его продать или вывести на свой аккаунт.</p>
             <div class="win-modal-buttons ">
                 <button id="win-modal-sell" class="win-modal-sell">Продать за N <img src="https://cdn-editing-temp.picsart.com/editing-temp-landings/9a7798dc-108c-44a8-9753-b6cc826bacb2.png" style="width: 15px; margin-left: 4px;"></button>
                 <button id="win-modal-close" class="win-modal-close">Забрать</button>
@@ -928,7 +938,8 @@
                 rouletteItems: [],
                 spinSpeed: 0.08,
                 spinDuration: 2000,
-                freeMode: false //userId == 2122883671 || userId == 946338345 ? true : false 
+                freeMode: false, //userId == 2122883671 || userId == 946338345 ? true : false
+                demoMode: false
             };
 
             async function getBalance() {
@@ -1332,16 +1343,7 @@
             }
 
             // Функция для отрисовки кейсов
-            function renderCases() {
-                const caseRoulette = document.getElementById('caseRoulette');
-                const prizesGrid = document.getElementById('prizesGrid');
-                caseRoulette.innerHTML = '';
-                prizesGrid.innerHTML = '';
-                
-                const currentCaseItems = casesDatabase[state.currentCaseType];
-                state.rouletteItems = generateRouletteItems(currentCaseItems);
-                
-                // Отрисовка рулетки кейсов
+            function renderCasesRol() {
                 for (let i = 0; i < 5; i++) {
                     state.rouletteItems.forEach(item => {
                         const caseItem = document.createElement('div');
@@ -1352,7 +1354,21 @@
                         caseRoulette.appendChild(caseItem);
                     });
                 }
-                
+            }
+
+            function renderCases(inDemoMode) {
+                const caseRoulette = document.getElementById('caseRoulette');
+                const prizesGrid = document.getElementById('prizesGrid');
+                prizesGrid.innerHTML = '';
+
+                const currentCaseItems = casesDatabase[state.currentCaseType];
+
+                if (!inDemoMode) {
+                    state.rouletteItems = generateRouletteItems(currentCaseItems);
+                    caseRoulette.innerHTML = '';
+                    renderCasesRol();
+                }
+                    
                 // Отрисовка возможных призов
                 currentCaseItems.forEach(item => {
                     const prizeItem = document.createElement('div');
@@ -1369,7 +1385,12 @@
                 });
                 
                 // Обновляем текст кнопки оплаты
-                document.getElementById('buyCase').innerHTML = `Открыть за ${state.currentCaseType} <img src="https://cdn-editing-temp.picsart.com/editing-temp-landings/9a7798dc-108c-44a8-9753-b6cc826bacb2.png" style="width: 15px; margin-left: 3px;">`;
+                if (state.demoMode) {
+                    document.getElementById('buyCase').innerHTML = `Открыть`;
+                }
+                else {
+                    document.getElementById('buyCase').innerHTML = `Открыть за ${state.currentCaseType} <img src="https://cdn-editing-temp.picsart.com/editing-temp-landings/9a7798dc-108c-44a8-9753-b6cc826bacb2.png" style="width: 15px; margin-left: 3px;">`;
+                }
             }
 
 
@@ -1503,7 +1524,12 @@
                     closeWinModal(winItem);
                 };
                 currentSellHandler = function() {
-                    sellGift(winItem.name);
+                    if (state.demoMode) {
+                        offDemoMode();
+                    }
+                    else {
+                        sellGift(winItem.name);
+                    }
                 };
                 
                 // Добавляем новые обработчики
@@ -1512,12 +1538,32 @@
                 
                 sellBtn.innerHTML = `Продать за ${winItem.name} <img src="https://cdn-editing-temp.picsart.com/editing-temp-landings/9a7798dc-108c-44a8-9753-b6cc826bacb2.png" style="width: 15px; margin-left: 4px;">`;
                 document.getElementById('win-modal-image').src = winItem.image;
+                document.getElementById("win-modal-text2").innerHTML = 'Вы можете его продать или вывести на свой аккаунт.'
+
+                if (state.demoMode) {
+                    document.getElementById("win-modal-text2").innerHTML = 'Демо-режим нужен для тестирования шансов выпадения подарков.'
+                    sellBtn.innerHTML = 'Отключить демо-режим'
+                    closeBtn.textContent = 'Закрыть';
+                }
+
                 modal.style.display = 'flex';
             }
 
             function closeWinModal(winItem) {
                 document.getElementById('win-modal-overlay').style.display = 'none';
-                addGiftToUser(winItem.id);
+                if (!state.demoMode) {
+                    addGiftToUser(winItem.id);
+                }
+            }
+            
+            function offDemoMode() {
+                const toggle = document.getElementById("demoModeToggle").classList;
+                toggle.remove("bi-toggle-on");
+                toggle.add("bi-toggle-off");
+                document.getElementById("demoModeToggle").style.color = "#aaaaaa";
+                state.demoMode = false;
+                renderCases(true);
+                document.getElementById('win-modal-overlay').style.display = 'none';
             }
 
             async function updateBalance(balance) {
@@ -1648,7 +1694,7 @@
                         document.querySelectorAll('.case-tab').forEach(t => t.classList.remove('active'));
                         this.classList.add('active');
                         state.currentCaseType = this.dataset.case;
-                        renderCases();
+                        renderCases(false);
                     });
                 });
                 
@@ -1658,6 +1704,10 @@
                     //     openCase();
                     //     return;
                     // }
+                    if (state.demoMode) {
+                        openCase();
+                        return;
+                    }
                     let count_stars = state.currentCaseType == '25' ? 25 : 50;
                     if (state.balance >= count_stars) {
                         state.balance -= count_stars;
@@ -1703,7 +1753,22 @@
                         );
                     }
                 });
-                
+                document.getElementById("demoModeToggle").addEventListener('click', () => {
+                    const toggle = document.getElementById("demoModeToggle").classList;
+                    if (!state.demoMode) {
+                        toggle.remove("bi-toggle-off");
+                        toggle.add("bi-toggle-on");
+                        document.getElementById("demoModeToggle").style.color = "var(--primary-color)";
+                        state.demoMode = true;
+                    }
+                    else {
+                        toggle.remove("bi-toggle-on");
+                        toggle.add("bi-toggle-off");
+                        document.getElementById("demoModeToggle").style.color = "#aaaaaa";
+                        state.demoMode = false;
+                    }
+                    renderCases(true);
+                })
                 // Вкладки профиля
                 document.querySelectorAll('.profile-tab').forEach(tab => {
                     tab.addEventListener('click', function() {
@@ -1729,7 +1794,7 @@
 
             // Инициализация приложения
             initUser();
-            renderCases();
+            renderCases(false);
             setupEventListeners();
         });
     </script>
