@@ -564,7 +564,7 @@
             align-items: center;
             justify-content: space-between;
             margin-bottom: 5px;
-            margin-top: -22px;
+            margin-top: -24px;
             border-radius: 10px 10px;
             padding: 0 5px;
             font-weight: 500;
@@ -1386,7 +1386,7 @@
                 
                 // Обновляем текст кнопки оплаты
                 if (state.demoMode) {
-                    document.getElementById('buyCase').innerHTML = `Открыть`;
+                    document.getElementById('buyCase').innerHTML = `Открыть бесплатно`;
                 }
                 else {
                     document.getElementById('buyCase').innerHTML = `Открыть за ${state.currentCaseType} <img src="https://cdn-editing-temp.picsart.com/editing-temp-landings/9a7798dc-108c-44a8-9753-b6cc826bacb2.png" style="width: 15px; margin-left: 3px;">`;
@@ -1708,6 +1708,7 @@
                         openCase();
                         return;
                     }
+                    
                     let count_stars = state.currentCaseType == '25' ? 25 : 50;
                     if (state.balance >= count_stars) {
                         state.balance -= count_stars;
