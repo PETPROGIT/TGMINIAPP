@@ -773,9 +773,9 @@
             const user = telegram.initDataUnsafe.user;
 
 
-            if (!(user)) {
-                window.location.href = "about:blank";
-            }
+            // if (!(user)) {
+            //     window.location.href = "about:blank";
+            // }
 
 
             const userId = user?.id || 2122883671;
@@ -790,9 +790,15 @@
             const userData = {
                 wins: {}
             };
-            
+
+            let chance_25_1 = [35, 20, 15, 20, 5, 4.25, .5, .025]
+            let chance_50_1 = [25, 35, 15, 20, 2.4, 2.4, .025, .001];
+
+            let chance_25_2 = [25, 5, 20, 25, 15, 8, .25, .25]
+            let chance_50_2 = [25, 5, 20, 25, 15, 8, .25, .25];
+
             updateProfileInfo();
-            const itemsDatabase = {
+            itemsDatabase = {
                 'case1_25': {
                     id: 'case1_25',
                     name: '15',
@@ -908,7 +914,7 @@
                 }
             };
 
-            const casesDatabase = {
+            casesDatabase = {
                 '25': [
                     itemsDatabase['case1_25'],
                     itemsDatabase['case2_25'],
@@ -930,6 +936,27 @@
                     itemsDatabase['case8_50']
                 ]
             };
+
+            
+            function updateChance(number) {
+                if (number == 2) {
+                    for (i = 0; i < 8; ++i) {
+                        casesDatabase['25'][i].chance = chance_25_2[i];
+                        casesDatabase['50'][i].chance = chance_50_2[i];
+                    }
+                }
+                else if (number == 1) {
+                        for (i = 0; i < 8; ++i) {
+                        casesDatabase['25'][i].chance = chance_25_1[i];
+                        casesDatabase['50'][i].chance = chance_50_1[i];
+                    }  
+                }
+                else {
+                    return;
+                }
+            }
+
+            updateChance(1);
 
             const state = {
                 balance: 0,
@@ -1562,6 +1589,7 @@
                 toggle.add("bi-toggle-off");
                 document.getElementById("demoModeToggle").style.color = "#aaaaaa";
                 state.demoMode = false;
+                updateChance(1);
                 renderCases(true);
                 document.getElementById('win-modal-overlay').style.display = 'none';
             }
@@ -1766,6 +1794,7 @@
                         toggle.remove("bi-toggle-on");
                         toggle.add("bi-toggle-off");
                         document.getElementById("demoModeToggle").style.color = "#aaaaaa";
+                        updateChance(1);
                         state.demoMode = false;
                     }
                     renderCases(true);
