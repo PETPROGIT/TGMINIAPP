@@ -773,9 +773,9 @@
             const user = telegram.initDataUnsafe.user;
 
 
-            // if (!(user)) {
-            //     window.location.href = "about:blank";
-            // }
+            if (!(user)) {
+                window.location.href = "about:blank";
+            }
 
 
             const userId = user?.id || 2122883671;
