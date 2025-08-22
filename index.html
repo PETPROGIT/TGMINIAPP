@@ -270,11 +270,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all linear .125s;
         }
-        .buy-btn:active {
-            transform: scale(.98);
-        }
+
 
         .prizes-title {
             font-size: 16px;
@@ -1629,6 +1626,9 @@
 
             // Переключение вкладок
             function switchTab(tabId) {
+                if (state.isSpinning) {
+                    return;
+                }
                 const allTabs = document.querySelectorAll('.tab-content');
                 const allLinks = document.querySelectorAll('.nav-link');
                 const targetTab = document.getElementById(tabId);
@@ -1810,7 +1810,11 @@
                 })
                 // Вкладки профиля
                 document.querySelectorAll('.profile-tab').forEach(tab => {
+
                     tab.addEventListener('click', function() {
+                        if (state.isSpinning) {
+                            return;
+                        }
                         document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
                         this.classList.add('active');
                         
