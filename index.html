@@ -1805,16 +1805,19 @@
                         toggle.add("bi-toggle-on");
                         document.getElementById("demoModeToggle").style.color = "var(--primary-color)";
                         state.demoMode = true;
-                        updateChance(2)
+                        updateChance(2);
+                        renderCases(true);
+
                     }
                     else {
                         toggle.remove("bi-toggle-on");
                         toggle.add("bi-toggle-off");
                         document.getElementById("demoModeToggle").style.color = "#aaaaaa";
                         updateChance(1);
+                        renderCases(true);
+
                         state.demoMode = false;
                     }
-                    renderCases(true);
                 })
                 // Вкладки профиля
                 document.querySelectorAll('.profile-tab').forEach(tab => {
