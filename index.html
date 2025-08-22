@@ -1454,6 +1454,7 @@
 
             // Функция для открытия кейса
             async function openCase() {
+                renderCases(false);
                 Telegram.WebApp.HapticFeedback.impactOccurred('heavy');
                 if (state.isSpinning) return;
                 state.isSpinning = true;
@@ -1726,6 +1727,9 @@
                 // Обработчики для вкладок кейсов
                 document.querySelectorAll('.case-tab').forEach(tab => {
                     tab.addEventListener('click', function() {
+                        if (state.isSpinning) {
+                            return;
+                        }
                         if (this.classList.contains('active')) return;
                         
                         document.querySelectorAll('.case-tab').forEach(t => t.classList.remove('active'));
@@ -1792,6 +1796,9 @@
                     }
                 });
                 document.getElementById("demoModeToggle").addEventListener('click', () => {
+                    if (state.isSpinning) {
+                        return;
+                    }
                     const toggle = document.getElementById("demoModeToggle").classList;
                     if (!state.demoMode) {
                         toggle.remove("bi-toggle-off");
@@ -1810,7 +1817,6 @@
                 })
                 // Вкладки профиля
                 document.querySelectorAll('.profile-tab').forEach(tab => {
-
                     tab.addEventListener('click', function() {
                         if (state.isSpinning) {
                             return;
@@ -1829,6 +1835,9 @@
                 // Навигация по вкладкам
                 document.querySelectorAll('.nav-link').forEach(link => {
                     link.addEventListener('click', function(e) {
+                        if (state.isSpinning) {
+                            return;
+                        }
                         e.preventDefault();
                         switchTab(this.dataset.tab);
                     });
