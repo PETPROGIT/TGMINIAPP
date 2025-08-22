@@ -800,8 +800,8 @@
             let chance_25_1 = [35, 20, 15, 20, 5, 4.25, .5, .025]
             let chance_50_1 = [25, 35, 15, 20, 2.4, 2.4, .025, .001];
 
-            let chance_25_2 = [25, 5, 20, 25, 15, 8, .25, .25]
-            let chance_50_2 = [25, 5, 20, 25, 15, 8, .25, .25];
+            let chance_25_2 = [25, 20, 12, 15, 18, 8, 1, 1]
+            let chance_50_2 = [20, 25, 12, 15, 18, 8, 1, 1];
 
             updateProfileInfo();
             itemsDatabase = {
@@ -1805,6 +1805,7 @@
                         toggle.add("bi-toggle-on");
                         document.getElementById("demoModeToggle").style.color = "var(--primary-color)";
                         state.demoMode = true;
+                        updateChance(2)
                     }
                     else {
                         toggle.remove("bi-toggle-on");
