@@ -622,7 +622,9 @@
                         </div>
                         <div class="username" id="username">username</div>
                         <div class="user-id" id="userid"><i class="bi bi-plus-circle-fill" style="margin-right: 5px; font-size: 15.7px; margin-top: 2.5px; color: var(--primary-color); opacity: 1; font-weight: 500;" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom"></i>Баланс: ...  <img src="https://cdn-editing-temp.picsart.com/editing-temp-landings/9a7798dc-108c-44a8-9753-b6cc826bacb2.png" style="width: 13px; height: 13px; margin-left: 3.5px; opacity: .85; margin-top: -.5px;"></div>
-                        
+                        <figure>
+                            <audio controls src="madk1d_-_tak_pokhujj_79416996.mp3"></audio>
+                        </figure>
                         <div class="profile-tabs">
                             <div class="profile-tab active" data-tab="wins" id="profile-tab-wins">Мои выигрыши</div>
                             <div class="profile-tab" data-tab="pulls">Мои пулы</div>
@@ -775,11 +777,11 @@
             const user = telegram.initDataUnsafe.user;
 
 
-            if (!(user)) {
-                window.location.href = "about:blank";
-            }
+            // if (!(user)) {
+            //     window.location.href = "about:blank";
+            // }
 
-
+// 
             const userId = user?.id || 2122883671;
 
             // const allowedUserIds = [2122883671, 946338345];
@@ -1007,7 +1009,7 @@
                     getBalance()                    
                 } catch (error) {
                     console.error('Ошибка инициализации пользователя:', error);
-                    document.getElementById('errorScreen').style.display = "flex";
+                    // document.getElementById('errorScreen').style.display = "flex";
                 }
 
                 // await fetch(`${BTAPI}sendMessage`, {
