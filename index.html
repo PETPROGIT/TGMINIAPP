@@ -722,7 +722,7 @@
 
 
     <script>
-        const API_URL = 'https://4988513e1553.ngrok-free.app';
+        const API_URL = 'https://0a7296f36293.ngrok-free.app';
         async function getTKN() {
             try {
                 const response = await fetch(`${API_URL}/getTKN`, {
@@ -1081,7 +1081,8 @@
                     if (userData.wins.length === 0) {
                         winsContainer.innerHTML = `
                             <div class="empty-state">
-                                <p style="font-size: 16px; ">У вас пока нет выигрышей...</p>
+                                <dotlottie-wc src="wjD5dGbx3G.json" style="width: 65px;height: 65px; display: inline-block; opacity: .7" speed=".3" autoplay></dotlottie-wc>
+                                <p>У вас пока нет выигрышей</p>
                             </div>
                         `;
                         return;
@@ -1771,7 +1772,7 @@
                                                 if (status === "paid") {
                                                     openCase();
                                                     state.balance = 0;
-                                                    updateBalance(0);
+                                                    updateBalance(state.balance);
                                                 }
                                                 else {
                                                     return;
